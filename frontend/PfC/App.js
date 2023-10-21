@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import LoadingPage from "./Screens/LoadingPage"
 import LoginPage from "./Screens/LoginPage"
+import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
+
 
 
 const Stack = createNativeStackNavigator();
@@ -29,7 +31,14 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="LoadingPage">
+      <Stack.Navigator initialRouteName="PetSitterProfile">
+      <Stack.Screen
+          name="PetSitterProfile"
+          component={PetSitterProfile}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="LoadingPage"
           component={LoadingPage}
@@ -37,6 +46,7 @@ export default function App() {
             headerShown: false,
           }}
         />
+        
         <Stack.Screen
           name="LoginPage"
           component={LoginPage}
@@ -44,6 +54,7 @@ export default function App() {
             headerShown: false,
           }}
         />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
