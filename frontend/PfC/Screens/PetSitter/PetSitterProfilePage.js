@@ -6,10 +6,10 @@ const styles = StyleSheet.create({
         flex: 1,
       },
       header: {
-        width: 360,
+        width: 415,
         height: 63,
-        marginLeft:30,
-        marginTop:40 ,
+        marginLeft: 0,
+        marginTop: 40,
         flexShrink: 0,
         borderRadius: 30,
         backgroundColor: "#C57AFF",

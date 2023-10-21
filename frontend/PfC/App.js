@@ -10,6 +10,11 @@ import ForgotPasswordPage from "./Screens/ForgotPasswordPage"
 import SignUpChoosePage from "./Screens/SignUpChoosePage"
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
 import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard"
+import AppointmentDetails from "./Screens/PetSitter/AppointmentDetail"
+import MyTaskDetails from "./Screens/PetSitter/MyTaskDetails"
+import Appointments from "./Screens/PetSitter/Appointments"
+import MyTasks from "./Screens/PetSitter/MyTasks"
+import History from "./Screens/PetSitter/History"
 
 
 
@@ -78,6 +83,46 @@ export default function App() {
           <Stack.Screen
           name="PetSitterDashboard"
           component={PetSitterDashboard}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+          <Stack.Screen
+          name="AppointmentDetails"
+          component={AppointmentDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="MyTaskDetails"
+          component={MyTaskDetails}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="Appointments"
+          component={Appointments}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="MyTasks"
+          component={MyTasks}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="History"
+          component={History}
           options={{
             headerShown: false,
           }}
