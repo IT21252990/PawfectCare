@@ -7,6 +7,7 @@ import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import LoadingPage from "./Screens/LoadingPage"
 import LoginPage from "./Screens/LoginPage"
 import ForgotPasswordPage from "./Screens/ForgotPasswordPage"
+import SignUpChoosePage from "./Screens/SignUpChoosePage"
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
 import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard"
 
@@ -53,6 +54,13 @@ export default function App() {
         <Stack.Screen
           name="ForgotPasswordPage"
           component={ForgotPasswordPage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SignUpChoosePage"
+          component={SignUpChoosePage}
           options={{
             headerShown: false,
           }}

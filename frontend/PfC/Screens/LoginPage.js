@@ -106,7 +106,9 @@ const LoginPage = () => {
           </View>
           <View style={styles.linktoSignup}>
             <Text style={styles.signuplickdis}>Don't have an Account ?   </Text>
-            <TouchableOpacity style={styles.signuptouch}>
+            <TouchableOpacity 
+            style={styles.signuptouch}
+            onPress={() => navigation.navigate("SignUpChoosePage")}>
               <Text style={styles.signup}>SIGN UP</Text>
             </TouchableOpacity>
           </View>
