@@ -7,6 +7,7 @@ import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import LoadingPage from "./Screens/LoadingPage"
 import LoginPage from "./Screens/LoginPage"
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
+import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard"
 
 
 
@@ -31,14 +32,8 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="PetSitterProfile">
-      <Stack.Screen
-          name="PetSitterProfile"
-          component={PetSitterProfile}
-          options={{
-            headerShown: false,
-          }}
-        />
+      <Stack.Navigator initialRouteName="LoadingPage">
+      
         <Stack.Screen
           name="LoadingPage"
           component={LoadingPage}
@@ -54,7 +49,24 @@ export default function App() {
             headerShown: false,
           }}
         />
-        
+        {/*pet sitter routes*/}
+
+        <Stack.Screen
+          name="PetSitterProfile"
+          component={PetSitterProfile}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+          <Stack.Screen
+          name="PetSitterDashboard"
+          component={PetSitterDashboard}
+          options={{
+            headerShown: false,
+          }}
+        />
+        {/*pet sitter end*/}
       </Stack.Navigator>
     </NavigationContainer>
   );

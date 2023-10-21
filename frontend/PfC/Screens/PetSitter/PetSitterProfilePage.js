@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
       },
       formContainer: {
-        marginLeft:25,
+        marginLeft:5,
         marginTop: 20,
       },
       label: {
@@ -188,6 +188,18 @@ const styles = StyleSheet.create({
         lineHeight: "normal",
         textAlign: "center",
     },
+    backgroundBox: {
+        marginLeft:15,
+        width: 380,
+        borderRadius: 30,
+        backgroundColor: "rgba(255, 255, 255, 0.45)",
+        shadowColor: "rgba(0, 0, 0, 0.25)",
+        shadowOffset: { width: 0, height: 10 },
+        shadowRadius: 15,
+        padding: 15,
+        margin: 10,
+        marginBottom:40,
+      },
 });
 
 const PetSitterProfile = () => {
@@ -212,6 +224,8 @@ const PetSitterProfile = () => {
           <Text style={styles.buttonText}>Upload Photo</Text>
         </TouchableOpacity>
       </View>
+      
+      <View style={styles.backgroundBox}>
       <View style={styles.formContainer}>
         <Text style={styles.label}>Name:</Text>
         <TextInput
@@ -254,6 +268,7 @@ const PetSitterProfile = () => {
           placeholder="Enter services provided"
         />
       </View>
+      
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.saveButton}>
           <Text style={styles.buttonText}>Save Changes</Text>
@@ -270,6 +285,7 @@ const PetSitterProfile = () => {
         <TouchableOpacity style={styles.logoutButton}>
                     <Text style={styles.logoutButtonText}>Logout</Text>
                 </TouchableOpacity>
+      </View>
       </View>
       </ScrollView>
     </ImageBackground>
