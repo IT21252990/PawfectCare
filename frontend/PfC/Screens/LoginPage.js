@@ -16,6 +16,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const LoginPage = () => {
+  const navigation = useNavigation();
+
   const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   return (
@@ -91,7 +93,9 @@ const LoginPage = () => {
                 </TouchableOpacity>
               </View>
             </View>
-            <TouchableOpacity style={styles.forgotpasswordText}>
+            <TouchableOpacity 
+            style={styles.forgotpasswordText}
+            onPress={() => navigation.navigate("ForgotPasswordPage")}>
               <Text style={styles.forgotpassword}>Forgot Password ?</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.loginBtnContainer}>
@@ -203,9 +207,9 @@ const styles = StyleSheet.create({
   },
   loginBtnContainer:{
     position:"absolute",
-    marginTop:670,
+    marginTop:660,
     width:180,
-    height:40,
+    height:50,
     borderRadius:20,
     backgroundColor:Colors.Btn_Positive,
     justifyContent:"center",
@@ -214,7 +218,7 @@ const styles = StyleSheet.create({
   btnLogin:{
     textAlign:"center",
     color:Colors.scondory,
-    fontSize:20,
+    fontSize:24,
     fontWeight:"bold"
   },
   linktoSignup:{

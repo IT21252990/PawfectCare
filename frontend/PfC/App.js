@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import LoadingPage from "./Screens/LoadingPage"
 import LoginPage from "./Screens/LoginPage"
+import ForgotPasswordPage from "./Screens/ForgotPasswordPage"
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
 import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard"
 
@@ -45,6 +46,13 @@ export default function App() {
         <Stack.Screen
           name="LoginPage"
           component={LoginPage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="ForgotPasswordPage"
+          component={ForgotPasswordPage}
           options={{
             headerShown: false,
           }}
