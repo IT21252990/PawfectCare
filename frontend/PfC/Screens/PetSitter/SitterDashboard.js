@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
 
+import { useNavigation } from '@react-navigation/native';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -94,6 +96,13 @@ const styles = StyleSheet.create({
 });
 
 const PetSitterProfile = () => {
+
+  const navigation = useNavigation();
+
+  const handleUpdateProfile = () => {
+    // Navigate to the profile page
+    navigation.navigate('PetSitterProfile'); // Replace 'Profile' with the actual name of your profile page in the navigator.
+  };
   return (
     <ImageBackground
       source={require("../../assets/images/mainbg.jpeg")}
@@ -113,7 +122,7 @@ const PetSitterProfile = () => {
           <Text style={styles.AppointmentbuttonText}>My Tasks</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.UpdateButton}>
+        <TouchableOpacity style={styles.UpdateButton} onPress={handleUpdateProfile}>
           <Text style={styles.UpdateButtonText}>Update Profile</Text>
         </TouchableOpacity>
 
