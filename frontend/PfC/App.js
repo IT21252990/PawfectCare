@@ -8,6 +8,9 @@ import LoadingPage from "./Screens/LoadingPage"
 import LoginPage from "./Screens/LoginPage"
 import ForgotPasswordPage from "./Screens/ForgotPasswordPage"
 import SignUpChoosePage from "./Screens/SignUpChoosePage"
+import SignUpPagePetOwner from "./Screens/SignUpPagePetOwner"
+import SignUpPagePetSitter from "./Screens/SignUpPagePetSitter"
+import SignUpPagePetCareCenter from "./Screens/SignUpPagePetCareCenter"
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
 import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard"
 import AppointmentDetails from "./Screens/PetSitter/AppointmentDetail"
@@ -66,6 +69,27 @@ export default function App() {
         <Stack.Screen
           name="SignUpChoosePage"
           component={SignUpChoosePage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SignUpPagePetOwner"
+          component={SignUpPagePetOwner}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SignUpPagePetSitter"
+          component={SignUpPagePetSitter}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="SignUpPagePetCareCenter"
+          component={SignUpPagePetCareCenter}
           options={{
             headerShown: false,
           }}

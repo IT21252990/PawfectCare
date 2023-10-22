@@ -33,7 +33,9 @@ const SignUpChoosePage = () => {
         <Text style={styles.mainTitle}>SIGN UP</Text>
         <Text style={styles.subTitle}>Select who you are ...</Text>
 
-        <TouchableOpacity>
+        <TouchableOpacity 
+            onPress={()=>navigation.navigate("SignUpPagePetOwner")}
+        >
           <Image
             source={require("../assets/images/signupchoosecard.png")}
             style={styles.card1}
@@ -44,7 +46,9 @@ const SignUpChoosePage = () => {
           />
           <Text style= {styles.petOwnerText}>Pet Owner</Text>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity
+         onPress={()=>navigation.navigate("SignUpPagePetSitter")}
+        >
           <Image
             source={require("../assets/images/signupchoosecard.png")}
             style={styles.card2}
@@ -56,7 +60,9 @@ const SignUpChoosePage = () => {
           <Text style= {styles.petSitterText}>Pet Sitter</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={()=>navigation.navigate("SignUpPagePetCareCenter")}
+        >
           <Image
             source={require("../assets/images/signupchoosecard.png")}
             style={styles.card3}
