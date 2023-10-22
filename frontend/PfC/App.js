@@ -19,6 +19,9 @@ import Appointments from "./Screens/PetSitter/Appointments"
 import MyTasks from "./Screens/PetSitter/MyTasks"
 import History from "./Screens/PetSitter/History"
 
+//pet care center
+import Centerdashboard from './Screens/PetCareCenter/Centerdashboard'
+
 
 
 const Stack = createNativeStackNavigator();
@@ -94,6 +97,20 @@ export default function App() {
             headerShown: false,
           }}
         />
+
+        {/* pet care center routes */}
+
+        <Stack.Screen
+          name="Centerdashboard"
+          component={Centerdashboard}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        {/* pet care center end */}
+
+
         {/*pet sitter routes*/}
 
         <Stack.Screen

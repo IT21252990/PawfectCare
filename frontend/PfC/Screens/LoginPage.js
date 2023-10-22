@@ -37,81 +37,81 @@ const LoginPage = () => {
           source={require("../assets/images/loginpic.png")}
           style={styles.loginPic}
         />
-          <View>
-            <Image
-              source={require("../assets/images/loginCard.png")}
-              style={styles.loginCard}
-            />
-            <Text style={styles.loginTitle}>LOGIN</Text>
-            <View style={styles.username}>
-              <Text style={styles.usernameLabel}>Username:</Text>
-              <View style={styles.usernameInput}>
-                <Image
-                  source={require("../assets/images/icon-user-dark.png")}
-                  style={styles.inputImage}
-                />
-                <TextInput
-                  placeholder="Enter your Username"
-                  placeholderTextColor={Colors.scondory}
-                  keyboardType="default"
-                  style={styles.input}
-                />
-              </View>
+        <View>
+          <Image
+            source={require("../assets/images/loginCard.png")}
+            style={styles.loginCard}
+          />
+          <Text style={styles.loginTitle}>LOGIN</Text>
+          <View style={styles.email}>
+            <Text style={styles.usernameLabel}>Email :</Text>
+            <View style={styles.usernameInput}>
+              <Image
+                source={require("../assets/images/icon-email.png")}
+                style={styles.inputImage}
+              />
+              <TextInput
+                placeholder="Enter your Email "
+                placeholderTextColor={Colors.scondory}
+                keyboardType="email-address"
+                style={styles.input}
+              />
             </View>
-            <View style={styles.password}>
-              <Text style={styles.usernameLabel}>Password:</Text>
-              <View style={styles.usernameInput}>
-                <Image
-                  source={require("../assets/images/icon-password-dark.png")}
-                  style={styles.inputImage}
-                />
-                <TextInput
-                  placeholder="Enter your Password"
-                  placeholderTextColor={Colors.scondory}
-                  secureTextEntry={!isPasswordShown}
-                  keyboardType="default"
-                  style={styles.input}
-                />
-                <TouchableOpacity
-                  onPress={() => setIsPasswordShown(!isPasswordShown)}
-                  style={{
-                    position: "absolute",
-                    right: 12,
-                  }}
-                >
-                  {isPasswordShown == true ? (
-                    <Image
-                      source={require("../assets/images/icon-eye-off.png")}
-                      style={{}}
-                    />
-                  ) : (
-                    <Image
-                      source={require("../assets/images/icon-eye.png")}
-                      style={{}}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
+          </View>
+          <View style={styles.password}>
+            <Text style={styles.usernameLabel}>Password:</Text>
+            <View style={styles.usernameInput}>
+              <Image
+                source={require("../assets/images/icon-password-dark.png")}
+                style={styles.inputImage}
+              />
+              <TextInput
+                placeholder="Enter your Password"
+                placeholderTextColor={Colors.scondory}
+                secureTextEntry={!isPasswordShown}
+                keyboardType="default"
+                style={styles.input}
+              />
+              <TouchableOpacity
+                onPress={() => setIsPasswordShown(!isPasswordShown)}
+                style={{
+                  position: "absolute",
+                  right: 12,
+                }}
+              >
+                {isPasswordShown == true ? (
+                  <Image
+                    source={require("../assets/images/icon-eye-off.png")}
+                    style={{}}
+                  />
+                ) : (
+                  <Image
+                    source={require("../assets/images/icon-eye.png")}
+                    style={{}}
+                  />
+                )}
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity 
+          </View>
+          <TouchableOpacity
             style={styles.forgotpasswordText}
-            onPress={() => navigation.navigate("ForgotPasswordPage")}>
-              <Text style={styles.forgotpassword}>Forgot Password ?</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtnContainer}>
-              <Text style={styles.btnLogin}>
-                LOGIN
-              </Text>
-            </TouchableOpacity> 
-          </View>
-          <View style={styles.linktoSignup}>
-            <Text style={styles.signuplickdis}>Don't have an Account ?   </Text>
-            <TouchableOpacity 
+            onPress={() => navigation.navigate("ForgotPasswordPage")}
+          >
+            <Text style={styles.forgotpassword}>Forgot Password ?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.loginBtnContainer}>
+            <Text style={styles.btnLogin}>LOGIN</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.linktoSignup}>
+          <Text style={styles.signuplickdis}>Don't have an Account ? </Text>
+          <TouchableOpacity
             style={styles.signuptouch}
-            onPress={() => navigation.navigate("SignUpChoosePage")}>
-              <Text style={styles.signup}>SIGN UP</Text>
-            </TouchableOpacity>
-          </View>
+            onPress={() => navigation.navigate("SignUpChoosePage")}
+          >
+            <Text style={styles.signup}>SIGN UP</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </KeyboardAwareScrollView>
   );
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 8,
   },
-  username: {
+  email: {
     position: "absolute",
     marginTop: 380,
     marginLeft: 60,
@@ -207,35 +207,35 @@ const styles = StyleSheet.create({
     color: Colors.scondory,
     textDecorationLine: "underline",
   },
-  loginBtnContainer:{
-    position:"absolute",
-    marginTop:660,
-    width:180,
-    height:50,
-    borderRadius:20,
-    backgroundColor:Colors.Btn_Positive,
-    justifyContent:"center",
-    alignSelf:"center",
+  loginBtnContainer: {
+    position: "absolute",
+    marginTop: 660,
+    width: 180,
+    height: 50,
+    borderRadius: 20,
+    backgroundColor: Colors.Btn_Positive,
+    justifyContent: "center",
+    alignSelf: "center",
   },
-  btnLogin:{
-    textAlign:"center",
-    color:Colors.scondory,
-    fontSize:24,
-    fontWeight:"bold"
+  btnLogin: {
+    textAlign: "center",
+    color: Colors.scondory,
+    fontSize: 24,
+    fontWeight: "bold",
   },
-  linktoSignup:{
-    flexDirection:"row",
-    alignSelf:"center",
-    marginTop:7
+  linktoSignup: {
+    flexDirection: "row",
+    alignSelf: "center",
+    marginTop: 7,
   },
-  signuplickdis:{
-    fontSize:16,
-    color:Colors.scondory
+  signuplickdis: {
+    fontSize: 16,
+    color: Colors.scondory,
   },
-  signup:{
-    fontSize:18,
-    color:Colors.scondory,
-    fontWeight:"bold",
-    textDecorationLine:"underline"
+  signup: {
+    fontSize: 18,
+    color: Colors.scondory,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
   },
 });
