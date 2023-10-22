@@ -4,25 +4,27 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import COLORS from "./constants/colors";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import LoadingPage from "./Screens/LoadingPage"
-import LoginPage from "./Screens/LoginPage"
-import ForgotPasswordPage from "./Screens/ForgotPasswordPage"
-import SignUpChoosePage from "./Screens/SignUpChoosePage"
-import SignUpPagePetOwner from "./Screens/SignUpPagePetOwner"
-import SignUpPagePetSitter from "./Screens/SignUpPagePetSitter"
-import SignUpPagePetCareCenter from "./Screens/SignUpPagePetCareCenter"
+import LoadingPage from "./Screens/LoadingPage";
+import LoginPage from "./Screens/LoginPage";
+import ForgotPasswordPage from "./Screens/ForgotPasswordPage";
+import SignUpChoosePage from "./Screens/SignUpChoosePage";
+import SignUpPagePetOwner from "./Screens/SignUpPagePetOwner";
+import SignUpPagePetSitter from "./Screens/SignUpPagePetSitter";
+import SignUpPagePetCareCenter from "./Screens/SignUpPagePetCareCenter";
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
-import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard"
-import AppointmentDetails from "./Screens/PetSitter/AppointmentDetail"
-import MyTaskDetails from "./Screens/PetSitter/MyTaskDetails"
-import Appointments from "./Screens/PetSitter/Appointments"
-import MyTasks from "./Screens/PetSitter/MyTasks"
-import History from "./Screens/PetSitter/History"
+import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard";
+import AppointmentDetails from "./Screens/PetSitter/AppointmentDetail";
+import MyTaskDetails from "./Screens/PetSitter/MyTaskDetails";
+import Appointments from "./Screens/PetSitter/Appointments";
+import MyTasks from "./Screens/PetSitter/MyTasks";
+import History from "./Screens/PetSitter/History";
 
 //pet care center
-import Centerdashboard from './Screens/PetCareCenter/Centerdashboard'
+import Centerdashboard from "./Screens/PetCareCenter/Centerdashboard";
+import CenterProfile from './Screens/PetCareCenter/CenterProfile'
 
-
+// pet owner
+import OwnerDashboard from "./Screens/PetOwner/OwnerDashboard";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,7 +48,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LoadingPage">
-      
         <Stack.Screen
           name="LoadingPage"
           component={LoadingPage}
@@ -54,7 +55,7 @@ export default function App() {
             headerShown: false,
           }}
         />
-        
+
         <Stack.Screen
           name="LoginPage"
           component={LoginPage}
@@ -108,8 +109,27 @@ export default function App() {
           }}
         />
 
+        <Stack.Screen
+          name="CenterProfile"
+          component={CenterProfile}
+          options={{
+            headerShown: false,
+          }}
+        />
+
         {/* pet care center end */}
 
+        {/* pet Owner routes */}
+
+        <Stack.Screen
+          name="OwnerDashboard"
+          component={OwnerDashboard}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        {/* pet Owner end */}
 
         {/*pet sitter routes*/}
 
@@ -121,7 +141,7 @@ export default function App() {
           }}
         />
 
-          <Stack.Screen
+        <Stack.Screen
           name="PetSitterDashboard"
           component={PetSitterDashboard}
           options={{
@@ -129,7 +149,7 @@ export default function App() {
           }}
         />
 
-          <Stack.Screen
+        <Stack.Screen
           name="AppointmentDetails"
           component={AppointmentDetails}
           options={{

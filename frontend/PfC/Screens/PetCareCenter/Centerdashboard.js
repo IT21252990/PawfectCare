@@ -4,8 +4,8 @@ import React, { Component } from 'react'
 export default class Centerdashboard extends Component {
   render() {
     return (
-      <View>
-        <Text>Centerdashboard</Text>
+      <View style={{ alignSelf:'center' , marginTop:400}}>
+        <Text style={{ fontSize:40 , fontWeight:'bold'}}>Carecenter Dashboard</Text>
       </View>
     )
   }

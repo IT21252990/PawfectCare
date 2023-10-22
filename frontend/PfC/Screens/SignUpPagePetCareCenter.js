@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore";
 
 const SignUpPagePetCareCenter = () => {
   const navigation = useNavigation();
@@ -29,37 +29,44 @@ const SignUpPagePetCareCenter = () => {
   const [error, setError] = useState("");
 
   const handleSignUp = async () => {
-
     if (!username || !email || !password || !confirmCassword) {
-        // Check if any of the fields are empty
-        setError("All fields are required");
-      } else if (password !== confirmCassword) {
-        // Check if password and confirm password match
-        setError("Password and Confirm Password do not match");
-      } else{
-        setError("");
-      }
+      // Check if any of the fields are empty
+      setError("All fields are required");
+    } else if (password !== confirmCassword) {
+      // Check if password and confirm password match
+      setError("Password and Confirm Password do not match");
+    } else {
+      setError("");
+    }
 
     const auth = getAuth();
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
+        console.log(user.uid);
+                try {
+            const docRef = await addDoc(
+              collection(FIRESTORE_DB, "users"),
+              {
+                uid: user.uid,
+                username:  username ,
+                email:  email ,
+                password:  password ,
+                role: "Carecenter",
+              }
+            );
+            console.log("Document written with ID: ", docRef.id);
+            //  navigation.navigate("Centerrofile");
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
       });
 
-      try {
-        const docRef = await addDoc(collection(FIRESTORE_DB, "pet_care_centers"), {
-          username: {username},
-          email: {email},
-          password: {password}
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+   
   };
 
   return (
@@ -223,10 +230,10 @@ const SignUpPagePetCareCenter = () => {
           </View>
         </View>
         {error ? (
-        <View style={styles.errorContainer}>
-          <Text style={styles.errorMessage}>{error}</Text>
-        </View>
-      ) : null}
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorMessage}>{error}</Text>
+          </View>
+        ) : null}
       </View>
     </KeyboardAwareScrollView>
   );
@@ -358,8 +365,8 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     position: "absolute",
-    marginTop: 680, // Adjust the position as needed
-    marginLeft: 20, // Adjust the position as needed
+    marginTop: 200, 
+    marginLeft: 50, 
   },
   errorMessage: {
     color: "red",
