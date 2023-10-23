@@ -77,7 +77,6 @@ const LoginPage = () => {
             // User is signed out
           }
         });
-
         // ...
       })
       .catch((error) => {

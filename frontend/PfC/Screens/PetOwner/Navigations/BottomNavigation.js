@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import  Home  from '../Home/Home';
+import  Home from "../Home/Home"
 import ChatDisplay from '../Chat/ChatDisplay'
 import Bookings from '../Bookings/Bookings'
 import Profile from '../Profile/Profile'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import Colors from "../../../assets/colors/colors";
 
 const BottomNavigation = () => {
 
@@ -23,12 +23,15 @@ const BottomNavigation = () => {
         left: 0,
         elevation: 0,
         height: 60,
-        background: COLORS.primary
+        background: Colors.ternary
     }
 }
 
   return (
-    <Tab.Navigator screenOptions={screenOptions}>
+    <Tab.Navigator 
+    initialRouteName="Home"
+    screenOptions={screenOptions}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
@@ -36,9 +39,10 @@ const BottomNavigation = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <MaterialCommunityIcons
-                name={focused ? "home" : "home-outline"}
+                name={focused ? "home" : "home"}
                 size={24}
-                color={COLORS.tertinary}
+                // color={Colors.primary}
+                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
               />
             );
           },
@@ -52,9 +56,9 @@ const BottomNavigation = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? "person" : "person-outline"}
+                name={focused ? "chatbubbles" : "chatbubbles"}
                 size={24}
-                color={COLORS.tertinary}
+                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
               />
             );
           },
@@ -68,9 +72,9 @@ const BottomNavigation = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? "person" : "person-outline"}
+                name={focused ? "clipboard" : "clipboard"}
                 size={24}
-                color={COLORS.tertinary}
+                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
               />
             );
           },
@@ -84,9 +88,9 @@ const BottomNavigation = () => {
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? "person" : "person-outline"}
+                name={focused ? "person" : "person"}
                 size={24}
-                color={COLORS.tertinary}
+                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
               />
             );
           },

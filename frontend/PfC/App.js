@@ -16,12 +16,10 @@ import SignUpPagePetCareCenter from "./Screens/SignUpPagePetCareCenter";
 
 //pet care center
 import Centerdashboard from "./Screens/PetCareCenter/Centerdashboard";
-import CenterProfile from "./Screens/PetCareCenter/CenterProfile";
+import CenterProfile from "./Screens/PetCareCenter/CenterProfile" ;
 
 // pet owner
-import OwnerDashboard from "./Screens/PetOwner/OwnerDashboard";
-import OwnerProfile from "./Screens/PetOwner/OwnerProfile";
-import BottomNavigation from './Screens/PetOwner/Navigations/BottomNavigation'
+import BottomNavigation from "./Screens/PetOwner/Navigations/BottomNavigation"
 
 // pet sitter
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
@@ -35,21 +33,6 @@ import History from "./Screens/PetSitter/History";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
-// const screenOptions = {
-//   tabBarShowLabel: false,
-//   headerShown: false,
-//   tabBarHideOnKeyboard: true,
-//   tabBarStyle: {
-//     position: "absolute",
-//     bottom: 0,
-//     right: 0,
-//     left: 0,
-//     elevation: 0,
-//     height: 60,
-//     background: COLORS.primary,
-//   },
-// };
 
 export default function App() {
   return (
@@ -127,18 +110,9 @@ export default function App() {
         {/* pet care center end */}
 
         {/* pet Owner routes */}
-
         <Stack.Screen
-          name="OwnerDashboard"
-          component={OwnerDashboard}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="OwnerProfile"
-          component={OwnerProfile}
+          name="BottomNavigation"
+          component={BottomNavigation}
           options={{
             headerShown: false,
           }}
@@ -205,14 +179,7 @@ export default function App() {
         />
         {/*pet sitter end*/}
 
-        {/* pet owner */}
-        <Stack.Screen
-          name="BottomNavigation"
-          component={BottomNavigation}
-          options={{
-            headerShown: false,
-          }}
-          />
+        
 
       </Stack.Navigator>
     </NavigationContainer>
