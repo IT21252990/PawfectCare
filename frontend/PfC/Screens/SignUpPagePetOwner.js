@@ -15,6 +15,8 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import BottomNavigation from './PetOwner/Navigations/BottomNavigation'
+
 const SignUpPagePetOwner = () => {
   const navigation = useNavigation();
 
@@ -147,7 +149,9 @@ const SignUpPagePetOwner = () => {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.signupBtnContainer}>
+            <TouchableOpacity 
+              style={styles.signupBtnContainer}
+              onPress={() => navigation.navigate("BottomNavigation")}>
               <Text style={styles.btnSignup}>
                 SIGN UP
               </Text>

@@ -21,6 +21,8 @@ import History from "./Screens/PetSitter/History"
 
 //pet care center
 import Centerdashboard from './Screens/PetCareCenter/Centerdashboard'
+//Pet owner
+import BottomNavigation from './Screens/PetOwner/Navigations/BottomNavigation'
 
 
 
@@ -169,6 +171,16 @@ export default function App() {
           }}
         />
         {/*pet sitter end*/}
+
+        {/* pet owner */}
+        <Stack.Screen
+          name="BottomNavigation"
+          component={BottomNavigation}
+          options={{
+            headerShown: false,
+          }}
+          />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
