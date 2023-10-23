@@ -56,7 +56,7 @@ const SignUpPagePetCareCenter = () => {
               }
             );
             console.log("Document written with ID: ", docRef.id);
-            navigation.navigate("CenterProfile");
+            navigation.navigate("CenterBottomNavigation");
           } catch (e) {
             console.error("Error adding document: ", e);
           }
@@ -151,15 +151,17 @@ const SignUpPagePetCareCenter = () => {
                 }}
               >
                 {isPasswordShown == true ? (
-                  <Image
-                    source={require("../assets/images/icon-eye-off.png")}
-                    style={{}}
-                  />
+                  <Ionicons
+                  name= "eye" 
+                  size={24}
+                  color = {Colors.scondory }
+                />
                 ) : (
-                  <Image
-                    source={require("../assets/images/icon-eye.png")}
-                    style={{}}
-                  />
+                  <Ionicons
+                 name= "eye-off" 
+                 size={24}
+                 color = {Colors.scondory }
+               />
                 )}
               </TouchableOpacity>
             </View>
@@ -189,15 +191,17 @@ const SignUpPagePetCareCenter = () => {
                 }}
               >
                 {isPasswordShown == true ? (
-                  <Image
-                    source={require("../assets/images/icon-eye-off.png")}
-                    style={{}}
-                  />
+                  <Ionicons
+                  name= "eye" 
+                  size={24}
+                  color = {Colors.scondory }
+                />
                 ) : (
-                  <Image
-                    source={require("../assets/images/icon-eye.png")}
-                    style={{}}
-                  />
+                  <Ionicons
+                  name= "eye-off" 
+                  size={24}
+                  color = {Colors.scondory }
+                />
                 )}
               </TouchableOpacity>
             </View>

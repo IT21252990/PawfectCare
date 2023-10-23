@@ -147,15 +147,17 @@ const SignUpPagePetSitter = () => {
                   }}
                 >
                   {isPasswordShown == true ? (
-                    <Image
-                      source={require("../assets/images/icon-eye-off.png")}
-                      style={{}}
-                    />
+                   <Ionicons
+                   name= "eye" 
+                   size={24}
+                   color = {Colors.scondory }
+                 />
                   ) : (
-                    <Image
-                      source={require("../assets/images/icon-eye.png")}
-                      style={{}}
-                    />
+                    <Ionicons
+                 name= "eye-off" 
+                 size={24}
+                 color = {Colors.scondory }
+               />
                   )}
                 </TouchableOpacity>
               </View>
@@ -185,15 +187,17 @@ const SignUpPagePetSitter = () => {
                   }}
                 >
                   {isPasswordShown == true ? (
-                    <Image
-                      source={require("../assets/images/icon-eye-off.png")}
-                      style={{}}
-                    />
+                    <Ionicons
+                    name= "eye" 
+                    size={24}
+                    color = {Colors.scondory }
+                  />
                   ) : (
-                    <Image
-                      source={require("../assets/images/icon-eye.png")}
-                      style={{}}
-                    />
+                    <Ionicons
+                 name= "eye-off" 
+                 size={24}
+                 color = {Colors.scondory }
+               />
                   )}
                 </TouchableOpacity>
               </View>

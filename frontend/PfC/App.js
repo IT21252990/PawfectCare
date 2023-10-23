@@ -15,8 +15,7 @@ import SignUpPagePetSitter from "./Screens/SignUpPagePetSitter";
 import SignUpPagePetCareCenter from "./Screens/SignUpPagePetCareCenter";
 
 //pet care center
-import Centerdashboard from "./Screens/PetCareCenter/Centerdashboard";
-import CenterProfile from "./Screens/PetCareCenter/CenterProfile" ;
+import CenterBottomNavigation from "./Screens/PetCareCenter/Navigations/CenterBottomNavigation";
 
 // pet owner
 import BottomNavigation from "./Screens/PetOwner/Navigations/BottomNavigation"
@@ -92,16 +91,8 @@ export default function App() {
         {/* pet care center routes */}
 
         <Stack.Screen
-          name="Centerdashboard"
-          component={Centerdashboard}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="CenterProfile"
-          component={CenterProfile}
+          name="CenterBottomNavigation"
+          component={CenterBottomNavigation}
           options={{
             headerShown: false,
           }}

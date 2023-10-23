@@ -1,15 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import  Home from "../Home/Home"
-import ChatDisplay from '../Chat/ChatDisplay'
-import Bookings from '../Bookings/Bookings'
-import Profile from '../Profile/Profile'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Colors from "../../../assets/colors/colors";
+import  CenterChat from "../Chat/CenterChat"
+import CenterHome from '../Home/CenterHome'
+import CenterNotifications from '../Notifications/CenterNotifications'
+import CenterProfile from '../Profile/CenterProfile'
 
-const BottomNavigation = () => {
+const CenterBottomNavigation = () => {
 
-  const Tab = createBottomTabNavigator();
+    const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
 
   const screenOptions={
@@ -25,16 +25,17 @@ const BottomNavigation = () => {
         height: 60,
         background: Colors.ternary
     }
-}
 
+  }
   return (
+
     <Tab.Navigator 
-    initialRouteName="Home"
+    initialRouteName="CenterHome"
     screenOptions={screenOptions}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="CenterHome"
+        component={CenterHome}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => {
@@ -51,8 +52,8 @@ const BottomNavigation = () => {
       />
 
     <Tab.Screen
-        name="Chat"
-        component={ChatDisplay}
+        name="CenterChat"
+        component={CenterChat}
         options={{
           tabBarLabel: 'Chat',
           tabBarIcon: ({ focused }) => {
@@ -68,14 +69,14 @@ const BottomNavigation = () => {
       />
 
     <Tab.Screen
-        name="Bookings"
-        component={Bookings}
+        name="CenterNotifications"
+        component={CenterNotifications}
         options={{
-          tabBarLabel: 'Bookings',
+          tabBarLabel: 'Notifications',
           tabBarIcon: ({ focused }) => {
             return (
               <Ionicons
-                name={focused ? "clipboard" : "clipboard"}
+                name={focused ? "notifications" : "notifications"}
                 size={24}
                 color={focused ? Colors.Up_Btn : Colors.Down_Btn}
               />
@@ -85,8 +86,8 @@ const BottomNavigation = () => {
       />
 
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="CenterProfile"
+        component={CenterProfile}
         options={{
           tabBarLabel: 'Account',
           tabBarIcon: ({ focused }) => {
@@ -102,14 +103,7 @@ const BottomNavigation = () => {
       />
 
     </Tab.Navigator>
-  );
+  )
+}
 
-};
-
-export default BottomNavigation ;
-
-
-
-
-
-
+export default CenterBottomNavigation

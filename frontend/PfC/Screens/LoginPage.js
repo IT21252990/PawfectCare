@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import Colors from "../assets/colors/colors";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   getAuth,
@@ -66,7 +66,7 @@ const LoginPage = () => {
             });
 
             if (userRole === "Carecenter") {
-              navigation.navigate("Centerdashboard");
+              navigation.navigate("CenterBottomNavigation");
             } else if (userRole === "Owner") {
               navigation.navigate("BottomNavigation");
             } else if (userRole === "Sitter") {
@@ -158,15 +158,17 @@ const LoginPage = () => {
                 }}
               >
                 {isPasswordShown == true ? (
-                  <Image
-                    source={require("../assets/images/icon-eye-off.png")}
-                    style={{}}
-                  />
+                 <Ionicons
+                 name= "eye" 
+                 size={24}
+                 color = {Colors.scondory }
+               />
                 ) : (
-                  <Image
-                    source={require("../assets/images/icon-eye.png")}
-                    style={{}}
-                  />
+                  <Ionicons
+                 name= "eye-off" 
+                 size={24}
+                 color = {Colors.scondory }
+               />
                 )}
               </TouchableOpacity>
             </View>
