@@ -54,6 +54,7 @@ const SignUpPagePetOwner = () => {
             role: "Owner",
           });
           console.log("Document written with ID: ", docRef.id);
+          navigation.navigate("OwnerProfile");
         } catch (e) {
           console.error("Error adding document: ", e);
         }

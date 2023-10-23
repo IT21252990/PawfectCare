@@ -1,12 +1,19 @@
-import { Text, View } from 'react-native'
+import { 
+  Text, 
+  View,
+  KeyboardAwareScrollView,
+ } from 'react-native'
 import React, { Component } from 'react'
 
-export default class CenterProfile extends Component {
-  render() {
+const CenterProfile = () => {
     return (
+      <KeyboardAwareScrollView>
         <View style={{ alignSelf:'center' , marginTop:400}}>
         <Text style={{ fontSize:40 , fontWeight:'bold'}}>Carecenter Profile</Text>
       </View>
+      </KeyboardAwareScrollView>
+        
     )
-  }
 }
+
+export default CenterProfile;

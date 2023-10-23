@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 // import COLORS from "./constants/colors";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+
+// common screens
 import LoadingPage from "./Screens/LoadingPage";
 import LoginPage from "./Screens/LoginPage";
 import ForgotPasswordPage from "./Screens/ForgotPasswordPage";
@@ -11,6 +13,17 @@ import SignUpChoosePage from "./Screens/SignUpChoosePage";
 import SignUpPagePetOwner from "./Screens/SignUpPagePetOwner";
 import SignUpPagePetSitter from "./Screens/SignUpPagePetSitter";
 import SignUpPagePetCareCenter from "./Screens/SignUpPagePetCareCenter";
+
+//pet care center
+import Centerdashboard from "./Screens/PetCareCenter/Centerdashboard";
+import CenterProfile from "./Screens/PetCareCenter/CenterProfile";
+
+// pet owner
+import OwnerDashboard from "./Screens/PetOwner/OwnerDashboard";
+import OwnerProfile from "./Screens/PetOwner/OwnerProfile";
+import BottomNavigation from './Screens/PetOwner/Navigations/BottomNavigation'
+
+// pet sitter
 import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
 import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard";
 import AppointmentDetails from "./Screens/PetSitter/AppointmentDetail";
@@ -19,16 +32,6 @@ import Appointments from "./Screens/PetSitter/Appointments";
 import MyTasks from "./Screens/PetSitter/MyTasks";
 import History from "./Screens/PetSitter/History";
 
-//pet care center
-import Centerdashboard from "./Screens/PetCareCenter/Centerdashboard";
-import CenterProfile from './Screens/PetCareCenter/CenterProfile'
-//Pet owner
-import BottomNavigation from './Screens/PetOwner/Navigations/BottomNavigation'
-
-
-
-// pet owner
-import OwnerDashboard from "./Screens/PetOwner/OwnerDashboard";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -128,6 +131,14 @@ export default function App() {
         <Stack.Screen
           name="OwnerDashboard"
           component={OwnerDashboard}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="OwnerProfile"
+          component={OwnerProfile}
           options={{
             headerShown: false,
           }}

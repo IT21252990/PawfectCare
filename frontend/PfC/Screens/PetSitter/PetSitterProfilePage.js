@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontStyle: "normal",
         fontWeight: "bold",
-        lineHeight: 26.54,
       },
       contentContainer: {
         flexDirection: "row",
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
-        lineHeight: "normal",
         textAlign: "center",
       },
       button: {
@@ -87,7 +85,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
-        lineHeight: 24,
         textAlign: "center",
       },
       formContainer: {
@@ -102,7 +99,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontStyle: "normal",
         fontWeight: "400",
-        lineHeight: "normal",
       },
       input: {
         width: 300,
@@ -169,7 +165,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
-        lineHeight: "normal",
         textAlign: "center",
       },
       logoutButton: {
@@ -192,7 +187,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
-        lineHeight: "normal",
         textAlign: "center",
     },
     backgroundBox: {
