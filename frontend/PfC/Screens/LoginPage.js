@@ -68,7 +68,7 @@ const LoginPage = () => {
             if (userRole === "Carecenter") {
               navigation.navigate("Centerdashboard");
             } else if (userRole === "Owner") {
-              navigation.navigate("OwnerDashboard");
+              navigation.navigate("BottomNavigation");
             } else if (userRole === "Sitter") {
               navigation.navigate("PetSitterDashboard");
             }
