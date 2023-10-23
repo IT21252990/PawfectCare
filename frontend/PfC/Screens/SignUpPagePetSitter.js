@@ -14,11 +14,55 @@ import Colors from "../assets/colors/colors";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { FIREBASE_AUTH, FIRESTORE_DB } from "../firebaseConfig";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
 
 const SignUpPagePetSitter = () => {
   const navigation = useNavigation();
 
   const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmCassword, setconfirmCassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSignUp = async () => {
+    if (!username || !email || !password || !confirmCassword) {
+      // Check if any of the fields are empty
+      setError("All fields are required");
+    } else if (password !== confirmCassword) {
+      // Check if password and confirm password match
+      setError("Password and Confirm Password do not match");
+    } else {
+      setError("");
+    }
+
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+        console.log(user.uid);
+        try {
+          const docRef = await addDoc(collection(FIRESTORE_DB, "users"), {
+            uid: user.uid,
+            username: username,
+            email: email,
+            password: password,
+            role: "Sitter",
+          });
+          console.log("Document written with ID: ", docRef.id);
+          navigation.navigate("PetSitterProfile");
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
 
 
   return (
@@ -53,6 +97,8 @@ const SignUpPagePetSitter = () => {
                 <TextInput
                   placeholder="Enter your Username"
                   placeholderTextColor={Colors.scondory}
+                  value={username}
+                onChangeText={(text) => setUsername(text)}
                   keyboardType="default"
                   style={styles.input}
                 />
@@ -69,6 +115,8 @@ const SignUpPagePetSitter = () => {
                 <TextInput
                   placeholder="Enter your Email "
                   placeholderTextColor={Colors.scondory}
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
                   keyboardType="email-address"
                   style={styles.input}
                 />
@@ -85,6 +133,8 @@ const SignUpPagePetSitter = () => {
                 <TextInput
                   placeholder="Enter your Password"
                   placeholderTextColor={Colors.scondory}
+                  value={password}
+                  onChangeText={(text) => setPassword(text)}
                   secureTextEntry={!isPasswordShown}
                   keyboardType="default"
                   style={styles.input}
@@ -121,6 +171,8 @@ const SignUpPagePetSitter = () => {
                 <TextInput
                   placeholder="Enter your Confirm Password"
                   placeholderTextColor={Colors.scondory}
+                  value={confirmCassword}
+                onChangeText={(text) => setconfirmCassword(text)}
                   secureTextEntry={!isPasswordShown}
                   keyboardType="default"
                   style={styles.input}
@@ -147,7 +199,10 @@ const SignUpPagePetSitter = () => {
               </View>
             </View>
 
-            <TouchableOpacity style={styles.signupBtnContainer}>
+            <TouchableOpacity 
+            style={styles.signupBtnContainer}
+            onPress={handleSignUp}
+            >
               <Text style={styles.btnSignup}>
                 SIGN UP
               </Text>
@@ -170,6 +225,11 @@ const SignUpPagePetSitter = () => {
             </TouchableOpacity>
           </View>
         </View>
+        {error ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorMessage}>{error}</Text>
+          </View>
+        ) : null}
       </View>
     </KeyboardAwareScrollView>
   );
@@ -298,5 +358,14 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.8,
     backgroundColor: Colors.ternary,
+  },
+  errorContainer: {
+    position: "absolute",
+    marginTop: 200, 
+    marginLeft: 50, 
+  },
+  errorMessage: {
+    color: "red",
+    fontSize: 16,
   },
 });

@@ -14,11 +14,86 @@ import Colors from "../assets/colors/colors";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
+import { FIRESTORE_DB } from "../firebaseConfig";
 
 const LoginPage = () => {
   const navigation = useNavigation();
 
   const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("All fields are required");
+    } else {
+      setError("");
+    }
+
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+
+        console.log("user Loged with : ", user.email);
+        setError(null); // Clear any previous errors
+
+        onAuthStateChanged(auth, async (user) => {
+          if (user) {
+ 
+            const uid = user.uid;
+
+            const querySnapshot = await getDocs(collection(FIRESTORE_DB, "users"));
+
+            let userRole = null; 
+
+            querySnapshot.forEach((doc) => {
+              const userData = doc.data();
+              console.log("username:", userData.username);
+  
+              if (userData.uid === uid) {
+                userRole = userData.role; // Store the user's role
+              }
+
+            });
+
+            if (userRole === "Carecenter") {
+              navigation.navigate("Centerdashboard");
+            } else if (userRole === "Owner") {
+              navigation.navigate("OwnerDashboard");
+            } else if (userRole === "Sitter") {
+              navigation.navigate("PetSitterDashboard");
+            }
+            // ...
+          } else {
+            // User is signed out
+          }
+        });
+
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        switch (errorCode) {
+          case "auth/invalid-email":
+            setError("Invalid email address.");
+            break;
+          case "auth/wrong-password":
+            setError("Invalid password.");
+            break;
+          default:
+            setError("An error occurred. Please try again later.");
+        }
+      });
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -53,6 +128,8 @@ const LoginPage = () => {
               <TextInput
                 placeholder="Enter your Email "
                 placeholderTextColor={Colors.scondory}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
                 keyboardType="email-address"
                 style={styles.input}
               />
@@ -68,6 +145,8 @@ const LoginPage = () => {
               <TextInput
                 placeholder="Enter your Password"
                 placeholderTextColor={Colors.scondory}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
                 secureTextEntry={!isPasswordShown}
                 keyboardType="default"
                 style={styles.input}
@@ -99,7 +178,10 @@ const LoginPage = () => {
           >
             <Text style={styles.forgotpassword}>Forgot Password ?</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.loginBtnContainer}>
+          <TouchableOpacity
+            style={styles.loginBtnContainer}
+            onPress={handleLogin}
+          >
             <Text style={styles.btnLogin}>LOGIN</Text>
           </TouchableOpacity>
         </View>
@@ -112,6 +194,7 @@ const LoginPage = () => {
             <Text style={styles.signup}>SIGN UP</Text>
           </TouchableOpacity>
         </View>
+        <Text style={styles.errorText}>{error}</Text>
       </View>
     </KeyboardAwareScrollView>
   );
@@ -237,5 +320,12 @@ const styles = StyleSheet.create({
     color: Colors.scondory,
     fontWeight: "bold",
     textDecorationLine: "underline",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    position: "absolute",
+    marginTop: 620,
+    marginLeft: 120,
   },
 });
