@@ -1,115 +1,114 @@
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import  Home from "../Home/Home"
-import ChatDisplay from '../Chat/ChatDisplay'
-import Bookings from '../Bookings/Bookings'
-import Profile from '../Profile/Profile'
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Colors from "../../../assets/colors/colors";
+// BottomNavigation.js
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import Home from '../Home/Home';
+import ChatDisplay from '../Chat/ChatDisplay';
+import Bookings from '../Bookings/Bookings';
+import Profile from '../Profile/Profile';
+import AddNewPet from '../Profile/AddNewPet';
+import Colors from '../../../assets/colors/colors';
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const BottomNavigation = () => {
-
-  const Tab = createBottomTabNavigator();
-  const Stack = createNativeStackNavigator();
-
-  const screenOptions={
-    tabBarShowLabel:false,
-    headerShown: false,
-    tabBarHideOnKeyboard: true,
-    tabBarStyle:{
-        position: "absolute",
-        bottom: 0,
-        right: 0,
-        left: 0,
-        elevation: 0,
-        height: 60,
-        background: Colors.ternary
-    }
-}
-
   return (
     <Tab.Navigator 
-    initialRouteName="Home"
-    screenOptions={screenOptions}
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarShowLabel: false,
+        headerShown: false,
+        tabBarHideOnKeyboard: true,
+        tabBarStyle: {
+          position: "absolute",
+          bottom: 0,
+          right: 0,
+          left: 0,
+          elevation: 0,
+          height: 60,
+          background: Colors.ternary
+        }
+      }}
     >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => {
-            return (
-              <MaterialCommunityIcons
-                name={focused ? "home" : "home"}
-                size={24}
-                // color={Colors.primary}
-                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
-              />
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "home" : "home"}
+              size={24}
+              color={focused ? Colors.Up_Btn : Colors.Down_Btn}
+            />
+          ),
         }}
       />
 
-    <Tab.Screen
+      <Tab.Screen
         name="Chat"
         component={ChatDisplay}
         options={{
           tabBarLabel: 'Chat',
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Ionicons
-                name={focused ? "chatbubbles" : "chatbubbles"}
-                size={24}
-                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
-              />
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "chatbubbles" : "chatbubbles"}
+              size={24}
+              color={focused ? Colors.Up_Btn : Colors.Down_Btn}
+            />
+          ),
         }}
       />
 
-    <Tab.Screen
+      <Tab.Screen
         name="Bookings"
         component={Bookings}
         options={{
           tabBarLabel: 'Bookings',
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Ionicons
-                name={focused ? "clipboard" : "clipboard"}
-                size={24}
-                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
-              />
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "clipboard" : "clipboard"}
+              size={24}
+              color={focused ? Colors.Up_Btn : Colors.Down_Btn}
+            />
+          ),
         }}
       />
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileStack}
         options={{
           tabBarLabel: 'Account',
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Ionicons
-                name={focused ? "person" : "person"}
-                size={24}
-                color={focused ? Colors.Up_Btn : Colors.Down_Btn}
-              />
-            );
-          },
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person"}
+              size={24}
+              color={focused ? Colors.Up_Btn : Colors.Down_Btn}
+            />
+          ),
         }}
       />
-
+     
     </Tab.Navigator>
   );
-
 };
 
-export default BottomNavigation ;
+const ProfileStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Owner_Profile"
+      component={Profile}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen 
+      name="AddNewPet" 
+      component={AddNewPet} 
+      options={{ headerShown: false }}/>
+  </Stack.Navigator>
+);
 
-
-
-
-
-
+export default BottomNavigation;
