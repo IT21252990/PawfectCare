@@ -156,7 +156,7 @@ const PetSitterProfile = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/mainbg.jpeg")}
+      source={require("../../../assets/images/mainbg.jpeg")}
       style={styles.container}
       imageStyle={styles.background}
     >
@@ -166,7 +166,7 @@ const PetSitterProfile = () => {
         </View>
 
         <View style={styles.avatarContainer}>
-          <Image source={require("../../assets/images/loginpic.png")} style={styles.avatarImage} />
+          <Image source={require("../../../assets/images/loginpic.png")} style={styles.avatarImage} />
         </View>
 
         <View style={styles.backgroundBox}>

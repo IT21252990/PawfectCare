@@ -53,7 +53,7 @@ const SignUpPagePetSitter = () => {
             role: "Sitter",
           });
           console.log("Document written with ID: ", docRef.id);
-          navigation.navigate("PetSitterProfile");
+          navigation.navigate("SitterBottomNavigation");
         } catch (e) {
           console.error("Error adding document: ", e);
         }

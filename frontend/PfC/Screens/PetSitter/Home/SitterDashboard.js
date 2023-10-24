@@ -3,6 +3,49 @@ import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextI
 
 import { useNavigation } from '@react-navigation/native';
 
+
+
+const PetSitterProfile = () => {
+
+  const navigation = useNavigation();
+
+  const handleUpdateProfile = () => {
+    // Navigate to the profile page
+    navigation.navigate('PetSitterProfile'); // Replace 'Profile' with the actual name of your profile page in the navigator.
+  };
+  return (
+    <ImageBackground
+      source={require("../../../assets/images/mainbg.jpeg")}
+      style={styles.container}
+      imageStyle={styles.background}
+    >
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>DASHBOARD</Text>
+        </View>
+
+        <TouchableOpacity style={styles.apointment}>
+          <Text style={styles.AppointmentbuttonText}>Check Appointments</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.MyTasksButton}>
+          <Text style={styles.AppointmentbuttonText}>My Tasks</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.UpdateButton} onPress={handleUpdateProfile}>
+          <Text style={styles.UpdateButtonText}>Update Profile</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.HistoryButton}>
+          <Text style={styles.AppointmentbuttonText}>History</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </ImageBackground>
+  );
+};
+
+export default PetSitterProfile;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -94,44 +137,3 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-
-const PetSitterProfile = () => {
-
-  const navigation = useNavigation();
-
-  const handleUpdateProfile = () => {
-    // Navigate to the profile page
-    navigation.navigate('PetSitterProfile'); // Replace 'Profile' with the actual name of your profile page in the navigator.
-  };
-  return (
-    <ImageBackground
-      source={require("../../assets/images/mainbg.jpeg")}
-      style={styles.container}
-      imageStyle={styles.background}
-    >
-      <ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>DASHBOARD</Text>
-        </View>
-
-        <TouchableOpacity style={styles.apointment}>
-          <Text style={styles.AppointmentbuttonText}>Check Appointments</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.MyTasksButton}>
-          <Text style={styles.AppointmentbuttonText}>My Tasks</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.UpdateButton} onPress={handleUpdateProfile}>
-          <Text style={styles.UpdateButtonText}>Update Profile</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.HistoryButton}>
-          <Text style={styles.AppointmentbuttonText}>History</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </ImageBackground>
-  );
-};
-
-export default PetSitterProfile;

@@ -67,7 +67,7 @@ const LoginPage = () => {
             } else if (userRole === "Owner") {
               navigation.navigate("BottomNavigation");
             } else if (userRole === "Sitter") {
-              navigation.navigate("PetSitterDashboard");
+              navigation.navigate("SitterBottomNavigation");
             }
             // ...
           } else {

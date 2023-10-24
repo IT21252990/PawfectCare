@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { getAuth, onAuthStateChanged , signOut , deleteUser} from "firebase/auth";
 import { doc, setDoc,getDoc,deleteDoc , collection } from 'firebase/firestore';
-import { FIRESTORE_DB } from "../../firebaseConfig";
+import { FIRESTORE_DB } from "../../../firebaseConfig";
 import { useNavigation } from '@react-navigation/native';
 import Toast from "react-native-toast-message";
 
@@ -212,7 +212,7 @@ await deleteDoc(userDocRef);
 
   return (
     <ImageBackground
-      source={require("../../assets/images/mainbg.jpeg")}
+      source={require("../../../assets/images/mainbg.jpeg")}
       style={styles.container}
       imageStyle={styles.background}
     >
@@ -223,7 +223,7 @@ await deleteDoc(userDocRef);
       <View style={styles.contentContainer}>
         <View style={styles.avatarContainer}>
           <Image
-            source={require("../../assets/images/loginpic.png")}
+            source={require("../../../assets/images/loginpic.png")}
             style={styles.avatarImage}
           />
         </View>
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
       marginTop: 20,
     },
     label: {
-      width: 200,
+      width: 350,
       height: 24,
       marginLeft: 20,
       color: "#3D3836",

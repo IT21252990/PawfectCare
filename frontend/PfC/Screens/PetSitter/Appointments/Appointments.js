@@ -49,7 +49,7 @@ const PetSitterProfile = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/mainbg.jpeg")}
+      source={require("../../../assets/images/mainbg.jpeg")}
       style={styles.container}
       imageStyle={styles.background}
     >

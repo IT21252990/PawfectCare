@@ -21,12 +21,13 @@ import CenterBottomNavigation from "./Screens/PetCareCenter/Navigations/CenterBo
 import BottomNavigation from "./Screens/PetOwner/Navigations/BottomNavigation"
 
 // pet sitter
-import PetSitterProfile from "./Screens/PetSitter/PetSitterProfilePage";
-import PetSitterDashboard from "./Screens/PetSitter/SitterDashboard";
-import AppointmentDetails from "./Screens/PetSitter/AppointmentDetail";
-import MyTaskDetails from "./Screens/PetSitter/MyTaskDetails";
-import Appointments from "./Screens/PetSitter/Appointments";
-import MyTasks from "./Screens/PetSitter/MyTasks";
+import SitterBottomNavigation from "./Screens/PetSitter/Navigation/BottomNavigation";
+import PetSitterProfile from "./Screens/PetSitter/Profile/PetSitterProfilePage";
+import PetSitterDashboard from "./Screens/PetSitter/Home/SitterDashboard";
+import AppointmentDetails from "./Screens/PetSitter/Appointments/AppointmentDetail";
+import MyTaskDetails from "./Screens/PetSitter/Tasks/MyTaskDetails";
+import Appointments from "./Screens/PetSitter/Appointments/Appointments";
+import MyTasks from "./Screens/PetSitter/Tasks/MyTasks";
 import History from "./Screens/PetSitter/History";
 
 
@@ -114,12 +115,24 @@ export default function App() {
         {/*pet sitter routes*/}
 
         <Stack.Screen
+          name="SitterBottomNavigation"
+          component={SitterBottomNavigation}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+<Stack.Screen
           name="PetSitterProfile"
           component={PetSitterProfile}
           options={{
             headerShown: false,
           }}
         />
+
+      
+
+        
 
         <Stack.Screen
           name="PetSitterDashboard"
