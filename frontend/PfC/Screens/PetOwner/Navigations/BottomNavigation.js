@@ -8,8 +8,10 @@ import Home from '../Home/Home';
 import ChatDisplay from '../Chat/ChatDisplay';
 import Bookings from '../Bookings/Bookings';
 import Profile from '../Profile/Profile';
-import AddNewPet from '../Profile/AddNewPet';
+import AddNewPet from '../Home/AddNewPet';
+import BookNowDetails from '../Home/BookNowDetails';
 import Colors from '../../../assets/colors/colors';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -35,7 +37,7 @@ const BottomNavigation = () => {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={HomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => (
@@ -97,6 +99,25 @@ const BottomNavigation = () => {
   );
 };
 
+const HomeStack = () => (
+  <Stack.Navigator initialRouteName='Owner_Home'>
+    <Stack.Screen
+      name="Owner_Home"
+      component={Home}
+      options={{ headerShown: false }}/>
+
+     <Stack.Screen 
+      name="BookNowDetails" 
+      component={BookNowDetails} 
+      options={{ headerShown: false }}/>
+
+    <Stack.Screen 
+      name="AddNewPet" 
+      component={AddNewPet} 
+      options={{ headerShown: false }}/>
+  </Stack.Navigator>
+);
+
 const ProfileStack = () => (
   <Stack.Navigator>
     <Stack.Screen
@@ -104,10 +125,6 @@ const ProfileStack = () => (
       component={Profile}
       options={{ headerShown: false }}
     />
-    <Stack.Screen 
-      name="AddNewPet" 
-      component={AddNewPet} 
-      options={{ headerShown: false }}/>
   </Stack.Navigator>
 );
 
