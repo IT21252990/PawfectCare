@@ -60,7 +60,6 @@ const CenterProfile = () => {
           const userAccountData = doc.data();
           if (userAccountData.uid === uid) {
             setAccountHolderName(userAccountData.username);
-            console.log("User Name :--", userAccountData.username);
           }
         });
       } else {

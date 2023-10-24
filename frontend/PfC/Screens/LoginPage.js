@@ -57,9 +57,10 @@ const LoginPage = () => {
 
             querySnapshot.forEach((doc) => {
               const userData = doc.data();
+              console.log("username:", userData.username);
+  
               if (userData.uid === uid) {
                 userRole = userData.role; // Store the user's role
-                console.log("username: ", userData.username , "Logged !!!");
               }
 
             });
