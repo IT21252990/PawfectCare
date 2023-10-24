@@ -16,6 +16,7 @@ import {
   deleteUser,
 } from "firebase/auth";
 import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
@@ -25,11 +26,15 @@ const CenterProfile = () => {
   const [user, setUser] = useState(null);
   const navigation = useNavigation();
 
-  const [name, setName] = useState("");
-  const [website, setWebsite] = useState("");
+  const [accountHolderName, setAccountHolderName] = useState("");
+  const [centerName, setCenterName] = useState("");
+  const [contactPersonName, setContactPersonName] = useState("");
+  const [webSiteUrl, setWebSiteUrl] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
+  const [centerEmail, setCenterEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
   const [experience, setExperience] = useState("");
   const [servicesProvided, setServicesProvided] = useState("");
@@ -39,29 +44,55 @@ const CenterProfile = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        setEmail(user.email); // Set the email state with the user's email
-        // Add this line to log the user's email
+        setEmail(user.email); 
+        setAccountHolderName(user.username);// Set the email state with the user's email
         fetchUserData(user.uid);
       } else {
         navigation.navigate("LoginPage");
       }
     });
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        const querySnapshot = await getDocs(collection(FIRESTORE_DB, "users"));
+        querySnapshot.forEach((doc) => {
+          const userAccountData = doc.data();
+          if (userAccountData.uid === uid) {
+            setAccountHolderName(userAccountData.username);
+            console.log("User Name :--", userAccountData.username);
+          }
+        });
+      } else {
+        // User is signed out
+        navigation.navigate("LoginPage");
+      }
+    });
   }, []);
 
+
+
   const fetchUserData = async (userId) => {
-    const userDocRef = doc(FIRESTORE_DB, "profile", userId);
+    const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", userId);
     const docSnapshot = await getDoc(userDocRef); // Use getDoc to fetch the data
     if (docSnapshot.exists()) {
       const userData = docSnapshot.data();
-      setName(userData.name || "");
-      setWebsite(userData.website || "");
+      setAccountHolderName(userData.accountHolderName);
+      setCenterName(userData.centerName || "");
+      setContactPersonName(userData.contactPersonName || "");
+      setWebSiteUrl(userData.website || "");
       setContactNumber(userData.contactNumber || "");
+      setEmail(userData.email);
+      setCenterEmail(userData.centerEmail || "");
       setAddress(userData.address || "");
+      setCity(userData.city || "");
       setDescription(userData.description || "");
       setExperience(userData.experience || "");
       setServicesProvided(userData.servicesProvided || "");
     }
   };
+
+
 
   const saveChanges = async () => {
     if (!user) {
@@ -71,22 +102,26 @@ const CenterProfile = () => {
 
     try {
       // Save additional profile data to Firestore
-      const userDocRef = doc(FIRESTORE_DB, "profile", user.uid);
+      const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", user.uid);
       await setDoc(userDocRef, {
-        name,
-        email,
-        website,
+        uid:user.uid,
+        accountHolderName,
+        centerName,
+        contactPersonName,
+        webSiteUrl,
         contactNumber,
+        email,
+        centerEmail,
         address,
+        city,
         description,
         experience,
         servicesProvided,
-        role: "Pet Sitter",
+        role: "PetCareCenter",
       });
 
       // Data saved successfully
       console.log("Profile data saved successfully.");
-      navigation.navigate("PetSitterDashboard");
       Toast.show({
         type: "success",
         position: "bottom",
@@ -142,7 +177,7 @@ const CenterProfile = () => {
   };
 
   const deleteFirestoreData = async (userId) => {
-    const userDocRef = doc(FIRESTORE_DB, "profile", userId);
+    const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", userId);
     try {
       await deleteDoc(userDocRef);
       console.log("Firestore data deleted successfully.");
@@ -184,9 +219,7 @@ const CenterProfile = () => {
         });
       }
     } else {
-      // Handle the case where there is no authenticated user
       console.error("No authenticated user found.");
-      // You can show a message to the user or take appropriate action.
     }
   };
 
@@ -216,11 +249,22 @@ const CenterProfile = () => {
 
         <View style={styles.backgroundBox}>
           <View style={styles.formContainer}>
+          <Text style={styles.label}>Account Holder Name :</Text>
+            <View style={styles.shadowBox}>
+              <TextInput
+                style={styles.input}
+                value={accountHolderName}
+                editable={false}
+              />
+            </View>
+
             <Text style={styles.label}>Center Name :</Text>
             <View style={styles.shadowBox}>
               <TextInput
                 style={styles.input}
                 placeholder="Enter your Center Name"
+                value={centerName}
+              onChangeText={text => setCenterName(text)}
               />
             </View>
 
@@ -229,6 +273,8 @@ const CenterProfile = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Enter Contact Person Name"
+                value={contactPersonName}
+              onChangeText={text => setContactPersonName(text)}
               />
             </View>
 
@@ -237,7 +283,9 @@ const CenterProfile = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Add URL of your Site"
-                keyboardType="url"
+                keyboardType="default"
+                value={webSiteUrl}
+              onChangeText={text => setWebSiteUrl(text)}
               />
             </View>
 
@@ -247,6 +295,8 @@ const CenterProfile = () => {
                 style={styles.input}
                 placeholder="Enter Contact Number "
                 keyboardType="phone-pad"
+                value={contactNumber}
+              onChangeText={text => setContactNumber(text)}
               />
             </View>
 
@@ -254,8 +304,20 @@ const CenterProfile = () => {
             <View style={styles.shadowBox}>
               <TextInput
                 style={styles.input}
-                placeholder="Enter Email Address"
                 keyboardType="email-address"
+                value={email}
+                editable={false}
+              />
+            </View>
+
+            <Text style={styles.label}>Center Email :</Text>
+            <View style={styles.shadowBox}>
+              <TextInput
+                style={styles.input}
+                keyboardType="email-address"
+                placeholder="Enter Email of your Center "
+                value={centerEmail}
+                onChangeText={text => setCenterEmail(text)}
               />
             </View>
 
@@ -265,6 +327,8 @@ const CenterProfile = () => {
                 style={styles.input}
                 placeholder="Enter your Address"
                 keyboardType="default"
+                value={address}
+              onChangeText={text => setAddress(text)}
               />
             </View>
 
@@ -274,6 +338,8 @@ const CenterProfile = () => {
                 style={styles.input}
                 placeholder="Enter your City"
                 keyboardType="default"
+                value={city}
+              onChangeText={text => setCity(text)}
               />
             </View>
 
@@ -286,6 +352,8 @@ const CenterProfile = () => {
                 multiline = {true}
                 numberOfLines={5}
                 textAlignVertical="top"
+                value={description}
+              onChangeText={text => setDescription(text)}
               />
             </View>
 
@@ -298,6 +366,8 @@ const CenterProfile = () => {
                 multiline = {true}
                 numberOfLines={5}
                 textAlignVertical="top"
+                value={experience}
+              onChangeText={text => setExperience(text)}
               />
             </View>
 
@@ -310,6 +380,8 @@ const CenterProfile = () => {
                 multiline = {true}
                 numberOfLines={5}
                 textAlignVertical="top"
+                value={servicesProvided}
+              onChangeText={text => setServicesProvided(text)}
               />
             </View>
 
