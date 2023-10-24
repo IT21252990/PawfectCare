@@ -95,7 +95,7 @@ const PetSitterProfile = () => {
 
       // Data saved successfully
       console.log("Profile data saved successfully.");
-      navigation.navigate('PetSitterDashboard');
+      navigation.navigate('SitterBottomNavigation');
       Toast.show({
         type: "success",
         position: "bottom",

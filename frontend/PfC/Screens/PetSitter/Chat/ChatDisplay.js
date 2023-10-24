@@ -1,40 +1,18 @@
-
-
-import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  Modal,
-  Image,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  Alert
-} from "react-native";
-
+import React, { useState, useEffect } from "react";
+import { View, Text } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 const ChatDisplay = () => {
+  const route = useRoute();
+  const { center } = route.params;
 
-    
   return (
-
-      <View style={{ flex: 1, marginHorizontal: 10 }}>
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: 800,
-              color: "#000000",
-              marginTop: 50,
-              marginLeft: 20,
-            }}
-          >
-            Welcome ChatDisplay!! 
-          </Text>
-
-       
-        </View>
-
-      
+    <View>
+      <Text style={{ fontSize: 20, fontWeight: "bold", color: "#000000", margin: 20 }}>
+        Chat with {center.centerName}
+      </Text>
+      {/* Implement your chat UI and functionality here */}
+    </View>
   );
 };
 

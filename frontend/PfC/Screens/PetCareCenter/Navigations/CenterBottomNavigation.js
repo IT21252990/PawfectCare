@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Colors from "../../../assets/colors/colors";
-import  CenterChat from "../Chat/CenterChat"
+import  CenterChat from "../Chat/CenterChatList"
 import CenterHome from '../Home/CenterHome'
 import CenterNotifications from '../Notifications/CenterNotifications'
 import CenterProfile from '../Profile/CenterProfile'

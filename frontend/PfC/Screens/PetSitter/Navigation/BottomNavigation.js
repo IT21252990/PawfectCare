@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Colors from "../../../assets/colors/colors";
-import  SitterChat from "../Chat/ChatDisplay"
+import  SitterChat from "../Chat/ChatList"
 import SitterHome from '../Home/SitterDashboard'
 import SitterNotifications from '../Notification/notification'
 import SitterProfile from '../Profile/PetSitterProfilePage'

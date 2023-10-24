@@ -29,6 +29,7 @@ import MyTaskDetails from "./Screens/PetSitter/Tasks/MyTaskDetails";
 import Appointments from "./Screens/PetSitter/Appointments/Appointments";
 import MyTasks from "./Screens/PetSitter/Tasks/MyTasks";
 import History from "./Screens/PetSitter/History";
+import chatDisplay from "./Screens/PetSitter/Chat/ChatDisplay"
 
 
 const Stack = createNativeStackNavigator();
@@ -181,6 +182,15 @@ export default function App() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="chatDisplay"
+          component={chatDisplay}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+
         {/*pet sitter end*/}
 
         

@@ -19,6 +19,7 @@ const PetSitterProfile = () => {
       style={styles.container}
       imageStyle={styles.background}
     >
+    
       <ScrollView>
         <View style={styles.header}>
           <Text style={styles.headerText}>DASHBOARD</Text>
