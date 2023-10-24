@@ -42,7 +42,6 @@ const LoginPage = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-
         console.log("user Loged with : ", user.email);
         setError(null); // Clear any previous errors
 
@@ -50,15 +49,13 @@ const LoginPage = () => {
           if (user) {
  
             const uid = user.uid;
-
             const querySnapshot = await getDocs(collection(FIRESTORE_DB, "users"));
-
             let userRole = null; 
 
             querySnapshot.forEach((doc) => {
               const userData = doc.data();
               console.log("username:", userData.username);
-  
+
               if (userData.uid === uid) {
                 userRole = userData.role; // Store the user's role
               }
