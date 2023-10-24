@@ -1,44 +1,71 @@
-
-
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
+  StyleSheet,
   View,
   Text,
-  Modal,
+  ImageBackground,
   Image,
   TouchableOpacity,
   TextInput,
-  StyleSheet,
-  Alert
+  ScrollView,
 } from "react-native";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut,
+  deleteUser,
+} from "firebase/auth";
+import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
+import { FIRESTORE_DB } from "../../../firebaseConfig";
+import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
+import Colors from "../../../assets/colors/colors";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 
 
-const ChatDisplay = () => {
-
-    
+const ChatDisplay= () => {
   return (
 
+    <ImageBackground
+      source={require("../../../assets/images/mainbg.jpeg")}
+      style={styles.container}
+      imageStyle={styles.background}
+    >
+      <View style={styles.header}>
+        <Text style={styles.headerText}> Chats </Text>
+      </View>
+
+      <ScrollView>
 
 
 
-      <View style={{ flex: 1, marginHorizontal: 10 }}>
-          <Text
-            style={{
-              fontSize: 40,
-              fontWeight: 800,
-              color: "#000000",
-              marginTop: 50,
-              marginLeft: 20,
-            }}
-          >
-            Welcome ChatDisplay!! 
-          </Text>
-
-       
-        </View>
-
-      
+      </ScrollView>
+      </ImageBackground>
   );
+
 };
 
 export default ChatDisplay;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    width: "100%",
+    height: 100,
+    marginLeft: 0,
+    marginTop: 0,
+    borderRadius: 40,
+    backgroundColor: Colors.top_title_bar,
+    alignItems: "center",
+    elevation: 40,
+  },
+  headerText: {
+    color: Colors.scondory,
+    textAlign: "center",
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 55,
+  },
+})
