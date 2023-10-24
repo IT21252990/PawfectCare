@@ -1,207 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { getAuth, onAuthStateChanged , signOut , deleteUser} from "firebase/auth";
-import { doc, setDoc,getDoc,deleteDoc } from 'firebase/firestore';
+import { doc, setDoc,getDoc,deleteDoc , collection } from 'firebase/firestore';
 import { FIRESTORE_DB } from "../../firebaseConfig";
 import { useNavigation } from '@react-navigation/native';
 import Toast from "react-native-toast-message";
 
-
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-      },
-      header: {
-        width: 415,
-        height: 63,
-        marginLeft: 0,
-        marginTop: 40,
-        flexShrink: 0,
-        borderRadius: 30,
-        backgroundColor: "#C57AFF",
-        justifyContent: "center",
-        alignItems: "center",
-        boxShadow: "0px 10px 15px 0px rgba(0, 0, 0, 0.25)",
-      },
-      headerText: {
-        width: 254,
-        height: 26.54,
-        flexShrink: 0,
-        color: "#3D3836",
-        textAlign: "center",
-        fontSize: 24,
-        fontStyle: "normal",
-        fontWeight: "bold",
-      },
-      contentContainer: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 20,
-      },
-      avatarContainer: {
-        width: 110,
-        height: 110,
-        borderRadius: 110,
-        backgroundColor: "lightgray",
-        justifyContent: "center",
-        alignItems: "center",
-        shadowOffset: { width: 0, height: 10 },
-        shadowRadius: 15,
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-      },
-      avatarImage: {
-        width: 110,
-        height: 110,
-        borderRadius: 110,
-      },
-      badgeContainer: {
-        width: 102,
-        height: 27.118,
-        borderRadius: 10,
-        backgroundColor: "linear-gradient(180deg, #FFD2A6 96.35%, rgba(255, 126, 0, 0.00) 100%)",
-        justifyContent: "center",
-        alignItems: "center",
-      },
-      badgeText: {
-        width: 81,
-        height: 21.307,
-        color: "#3D3836",
-        
-        fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "400",
-        textAlign: "center",
-      },
-      button: {
-        backgroundColor: "#FFD2A6",
-        padding: 5,
-        borderRadius: 10,
-        marginLeft: 10,
-      },
-      buttonText: {
-        color: "#3D3836",
-        fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "400",
-        textAlign: "center",
-      },
-      formContainer: {
-        marginLeft:5,
-        marginTop: 20,
-      },
-      label: {
-        width: 147,
-        height: 24,
-        marginLeft: 40,
-        color: "#3D3836",
-        fontSize: 18,
-        fontStyle: "normal",
-        fontWeight: "400",
-      },
-      input: {
-        width: 300,
-        height: 45,
-        marginLeft: 30,
-        borderRadius: 20,
-        backgroundColor: "#FFD2A6",
-        marginBottom: 10,
-        padding :15 ,
-      },
-      // Add styles for the buttons
-      buttonContainer: {
-        flexDirection: "column", // Change to column layout
-        justifyContent: "space-between",
-        marginTop: 20,
-      },
-      saveButton: {
-        width: "80%", // Take up full width
-        marginLeft:40,
-        height: 44,
-        flexShrink: 0,
-        borderRadius: 20,
-        backgroundColor: "#C57AFF",
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-        shadowOffset: { width: 0, height: 10 },
-        shadowRadius: 15,
-        marginBottom: 10, // Add some spacing
-      },
-      horizontalButtonContainer: {
-        flexDirection: "row", // Horizontal layout
-        justifyContent: "space-between",
-        marginTop:15,
-      },
-      updatePasswordButton: {
-        width: "40%", // Take up almost half of the width
-        marginLeft:25,
-        height: 44,
-        flexShrink: 0,
-        borderRadius: 20,
-        backgroundColor: "#FFA149",
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-        shadowOffset: { width: 0, height: 10 },
-        shadowRadius: 15,
-      },
-      deleteAccountButton: {
-        width: "40%", // Take up almost half of the width
-        marginRight:25,
-        height: 44,
-        flexShrink: 0,
-        borderRadius: 20,
-        backgroundColor: "#FFA149",
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-        shadowOffset: { width: 0, height: 10 },
-        shadowRadius: 15,
-      },
-      buttonText: {
-        color: "white",
-        fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "400",
-        textAlign: "center",
-      },
-      logoutButton: {
-        width: 99,
-        height: 44,
-        marginTop: 15,
-        marginBottom:50,
-        flexShrink: 0,
-        borderRadius: 20,
-        backgroundColor: "#FF827A",
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-        shadowOffset: { width: 0, height: 10 },
-        shadowRadius: 15,
-        marginLeft:140,
-    },
-    logoutButtonText: {
-        color: "white",
-        fontSize: 16,
-        fontStyle: "normal",
-        fontWeight: "400",
-        textAlign: "center",
-    },
-    backgroundBox: {
-        marginLeft:15,
-        width: 380,
-        borderRadius: 30,
-        backgroundColor: "rgba(255, 255, 255, 0.45)",
-        shadowColor: "rgba(0, 0, 0, 0.25)",
-        shadowOffset: { width: 0, height: 10 },
-        shadowRadius: 15,
-        padding: 15,
-        margin: 10,
-        marginBottom:40,
-      },
-});
 
 const PetSitterProfile = () => {
 
@@ -234,19 +38,34 @@ const PetSitterProfile = () => {
   }, []);
 
   const fetchUserData = async (userId) => {
-    const userDocRef = doc(FIRESTORE_DB, "profile", userId);
+    const userDocRef = doc(FIRESTORE_DB, "pet_sitter_profile", userId);
     const docSnapshot = await getDoc(userDocRef); // Use getDoc to fetch the data
     if (docSnapshot.exists()) {
       const userData = docSnapshot.data();
-      setName(userData.name || "");
-      setWebsite(userData.website || "");
-      setContactNumber(userData.contactNumber || "");
-      setAddress(userData.address || "");
-      setDescription(userData.description || "");
-      setExperience(userData.experience || "");
-      setServicesProvided(userData.servicesProvided || "");
+      console.log("Retrieved user data:", userData);
+  
+      const name = userData.name || "";
+      const website = userData.website || "";
+      const contactNumber = userData.contactNumber || "";
+      const address = userData.address || "";
+      const description = userData.description || "";
+      const experience = userData.experience || "";
+      const servicesProvided = userData.servicesProvided || "";
+  
+      
+  
+      // Now you can set these values in your state as needed.
+      setName(name);
+      setWebsite(website);
+      setContactNumber(contactNumber);
+      setAddress(address);
+      setDescription(description);
+      setExperience(experience);
+      setServicesProvided(servicesProvided);
     }
   };
+  
+  
   
 
 
@@ -261,7 +80,7 @@ const PetSitterProfile = () => {
       
 
       // Save additional profile data to Firestore
-      const userDocRef = doc(FIRESTORE_DB, "profile", user.uid);
+      const userDocRef = doc(FIRESTORE_DB, "pet_sitter_profile", user.uid);
       await setDoc(userDocRef, {
         name,
         email,
@@ -333,7 +152,7 @@ const PetSitterProfile = () => {
   };
 
   const deleteFirestoreData = async (userId) => {
-    const userDocRef = doc(FIRESTORE_DB, "profile", userId);
+    const userDocRef = doc(FIRESTORE_DB, "pet_sitter_profile", userId);
     try {
       await deleteDoc(userDocRef);
       console.log("Firestore data deleted successfully.");
@@ -348,15 +167,23 @@ const PetSitterProfile = () => {
   
     if (user) {
       try {
-        await deleteUser(user);
+        // Delete data from the 'users' collection
+        const usersCollectionRef = collection(FIRESTORE_DB, "users");
+const userDocRef = doc(usersCollectionRef, user.uid);
+await deleteDoc(userDocRef);
+  
         // Delete Firestore data
         deleteFirestoreData(user.uid);
+  
+        // Delete the user's account
+        await deleteUser(user);
+  
         // Display a success message and navigate to the login screen
         Toast.show({
           type: "success",
           position: "bottom",
           text1: "Account Deleted",
-          text2: "Your account has been successfully deleted.",
+          text2: "Your account and data have been successfully deleted.",
           visibilityTime: 3000,
           autoHide: true,
         });
@@ -491,3 +318,199 @@ const PetSitterProfile = () => {
 };
 
 export default PetSitterProfile;
+
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+    },
+    header: {
+      width: 395,
+      height: 63,
+      marginLeft: 0,
+      marginTop: 40,
+      flexShrink: 0,
+      borderRadius: 30,
+      backgroundColor: "#C57AFF",
+      justifyContent: "center",
+      alignItems: "center",
+      boxShadow: "0px 10px 15px 0px rgba(0, 0, 0, 0.25)",
+    },
+    headerText: {
+      width: 254,
+      height: 26.54,
+      flexShrink: 0,
+      color: "#3D3836",
+      textAlign: "center",
+      fontSize: 24,
+      fontStyle: "normal",
+      fontWeight: "bold",
+       // Changed from a string to a numeric value
+    },
+    contentContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 20,
+    },
+    avatarContainer: {
+      width: 110,
+      height: 110,
+      borderRadius: 110,
+      backgroundColor: "lightgray",
+      justifyContent: "center",
+      alignItems: "center",
+      shadowOffset: { width: 0, height: 10 },
+      shadowRadius: 15,
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+    },
+    avatarImage: {
+      width: 110,
+      height: 110,
+      borderRadius: 110,
+    },
+    badgeContainer: {
+      width: 102,
+      height: 27.118,
+      borderRadius: 10,
+      backgroundColor: "linear-gradient(180deg, #FFD2A6 96.35%, rgba(255, 126, 0, 0.00) 100%)",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    badgeText: {
+      width: 81,
+      height: 21.307,
+      color: "#3D3836",
+      fontSize: 16,
+      fontStyle: "normal",
+      fontWeight: "400",
+      textAlign: "center",
+    },
+    button: {
+      backgroundColor: "#FFD2A6",
+      padding: 5,
+      borderRadius: 10,
+      marginLeft: 10,
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 16,
+      fontStyle: "normal",
+      fontWeight: "400",
+      textAlign: "center",
+    },
+    formContainer: {
+      marginLeft:5,
+      marginTop: 20,
+    },
+    label: {
+      width: 200,
+      height: 24,
+      marginLeft: 20,
+      color: "#3D3836",
+      fontSize: 18,
+      fontStyle: "normal",
+      fontWeight: "400",
+    },
+    input: {
+      width: 300,
+      height: 45,
+      marginLeft: 10,
+      borderRadius: 20,
+      backgroundColor: "#FFD2A6",
+      marginBottom: 10,
+      padding :15 ,
+    },
+    // Add styles for the buttons
+    buttonContainer: {
+      flexDirection: "column", // Change to column layout
+      justifyContent: "space-between",
+      marginTop: 20,
+    },
+    saveButton: {
+      width: "80%", // Take up full width
+      marginLeft:40,
+      height: 44,
+      flexShrink: 0,
+      borderRadius: 20,
+      backgroundColor: "#C57AFF",
+      justifyContent: "center",
+      alignItems: "center",
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+      shadowOffset: { width: 0, height: 10 },
+      shadowRadius: 15,
+      marginBottom: 10, // Add some spacing
+    },
+    horizontalButtonContainer: {
+      flexDirection: "row", // Horizontal layout
+      justifyContent: "space-between",
+      marginTop:15,
+    },
+    updatePasswordButton: {
+      width: "40%", // Take up almost half of the width
+      marginLeft:25,
+      height: 44,
+      flexShrink: 0,
+      borderRadius: 20,
+      backgroundColor: "#FFA149",
+      justifyContent: "center",
+      alignItems: "center",
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+      shadowOffset: { width: 0, height: 10 },
+      shadowRadius: 15,
+    },
+    deleteAccountButton: {
+      width: "40%", // Take up almost half of the width
+      marginRight:25,
+      height: 44,
+      flexShrink: 0,
+      borderRadius: 20,
+      backgroundColor: "#FFA149",
+      justifyContent: "center",
+      alignItems: "center",
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+      shadowOffset: { width: 0, height: 10 },
+      shadowRadius: 15,
+    },
+    buttonText: {
+      color: "white",
+      fontSize: 16,
+      fontStyle: "normal",
+      fontWeight: "400",
+      textAlign: "center",
+    },
+    logoutButtonText: {
+      color: "white",
+      fontSize: 16,
+      fontStyle: "normal",
+      fontWeight: "400",
+      textAlign: "center",
+    },
+   logoutButton: {
+      width: 99,
+      height: 44,
+      marginTop: 20,
+      marginBottom:50,
+      flexShrink: 0,
+      borderRadius: 20,
+      backgroundColor: "#FF827A",
+      justifyContent: "center",
+      alignItems: "center",
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+      shadowOffset: { width: 0, height: 10 },
+      shadowRadius: 15,
+      marginLeft:120,
+  },
+  backgroundBox: {
+      marginLeft:18,
+      width: 360,
+      borderRadius: 30,
+      backgroundColor: "rgba(255, 255, 255, 0.45)",
+      shadowColor: "rgba(0, 0, 0, 0.25)",
+      shadowOffset: { width: 0, height: 10 },
+      shadowRadius: 15,
+      padding: 15,
+      margin: 10,
+      marginBottom:40,
+    },
+});
