@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import {
   getAuth,
@@ -15,38 +16,39 @@ import {
   signOut,
   deleteUser,
 } from "firebase/auth";
-import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import Colors from "../../../assets/colors/colors";
+import { useRoute } from '@react-navigation/native';
 
 const AddNewPet = () => {
   const [user, setUser] = useState(null);
   const navigation = useNavigation();
 
   const [accountHolderName, setAccountHolderName] = useState("");
-  const [centerName, setPetName] = useState("");
-  const [contactPersonName, setContactPersonName] = useState("");
-  const [webSiteUrl, setWebSiteUrl] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [centerEmail, setCenterEmail] = useState("");
-  const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
-  const [description, setDescription] = useState("");
-  const [experience, setExperience] = useState("");
-  const [servicesProvided, setServicesProvided] = useState("");
+  //pet details
+  const [petName, setPetName] = useState("");
+  const [petAge, setPetAge] = useState("");
+  const [petGender, setpetGender] = useState("");
+  const [petBreed, setpetBreed] = useState("");
+  const [petPersonality, setpetPersonality] = useState("");
+  const [petMed, setPetMed] = useState("");
+
+  const route = useRoute();
+  const centerId = route.params?.selectedItem?.uid;
 
   useEffect(() => {
     const auth = getAuth();
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
-        setEmail(user.email); 
-        setAccountHolderName(user.username);// Set the email state with the user's email
-        fetchUserData(user.uid);
+        setAccountHolderName(user.username);
       } else {
         navigation.navigate("LoginPage");
       }
@@ -70,30 +72,7 @@ const AddNewPet = () => {
   }, []);
 
 
-
-  // const fetchUserData = async (userId) => {
-  //   const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", userId);
-  //   const docSnapshot = await getDoc(userDocRef); // Use getDoc to fetch the data
-  //   if (docSnapshot.exists()) {
-  //     const userData = docSnapshot.data();
-  //     setAccountHolderName(userData.accountHolderName);
-  //     setCenterName(userData.centerName || "");
-  //     setContactPersonName(userData.contactPersonName || "");
-  //     setWebSiteUrl(userData.website || "");
-  //     setContactNumber(userData.contactNumber || "");
-  //     setEmail(userData.email);
-  //     setCenterEmail(userData.centerEmail || "");
-  //     setAddress(userData.address || "");
-  //     setCity(userData.city || "");
-  //     setDescription(userData.description || "");
-  //     setExperience(userData.experience || "");
-  //     setServicesProvided(userData.servicesProvided || "");
-  //   }
-  // };
-
-
-
-  const saveChanges = async () => {
+  const requestBooking = async () => {
     if (!user) {
       navigation.navigate("LoginPage");
       return;
@@ -101,92 +80,27 @@ const AddNewPet = () => {
 
     try {
       // Save additional profile data to Firestore
-      const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", user.uid);
-      await setDoc(userDocRef, {
+      const docRef = await addDoc(collection(FIRESTORE_DB, 'bookings'), {
+        centerId:centerId,
         uid:user.uid,
         accountHolderName,
-        centerName,
-        contactPersonName,
-        webSiteUrl,
         contactNumber,
-        email,
-        centerEmail,
-        address,
         city,
-        description,
-        experience,
-        servicesProvided,
-        role: "PetCareCenter",
+        petName,
+        petAge,
+        petGender,
+        petBreed,
+        petPersonality,
+        petMed,
+        bookingStatus: "Pending",
       });
 
       // Data saved successfully
-      console.log("Profile data saved successfully.");
-      Toast.show({
-        type: "success",
-        position: "bottom",
-        text1: "Success",
-        text2: "Profile data saved successfully.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
+      console.log("Booking request sent successfully" , docRef.id);
+      Alert.alert("Booking request sent successfully")
     } catch (error) {
-      console.error("Error saving profile data: ", error);
-      Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Error",
-        text2:
-          "There was an error while saving your profile data. Please try again.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
-    }
-  };
-
-  const deleteFirestoreData = async (userId) => {
-    const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", userId);
-    try {
-      await deleteDoc(userDocRef);
-      console.log("Firestore data deleted successfully.");
-    } catch (error) {
-      console.error("Error deleting Firestore data: ", error);
-    }
-  };
-
-  const deletePetHandler = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (user) {
-      try {
-        await deleteUser(user);
-        // Delete Firestore data
-        deleteFirestoreData(user.uid);
-        // Display a success message and navigate to the login screen
-        Toast.show({
-          type: "success",
-          position: "bottom",
-          text1: "Account Deleted",
-          text2: "Your account has been successfully deleted.",
-          visibilityTime: 3000,
-          autoHide: true,
-        });
-        navigation.navigate("LoginPage");
-      } catch (error) {
-        console.error("Error deleting account: ", error);
-        // Display an error message
-        Toast.show({
-          type: "error",
-          position: "bottom",
-          text1: "Error",
-          text2:
-            "There was an error while deleting your account. Please try again.",
-          visibilityTime: 3000,
-          autoHide: true,
-        });
-      }
-    } else {
-      console.error("No authenticated user found.");
+      console.error("Error sending booking request", error);
+      Alert.alert("Error sending booking request")
     }
   };
 
@@ -197,7 +111,7 @@ const AddNewPet = () => {
       imageStyle={styles.background}
     >
       <View style={styles.header}>
-        <Text style={styles.headerText}>Add New Pet</Text>
+        <Text style={styles.headerText}>Request Booking</Text>
       </View>
       <ScrollView>
         <View style={styles.contentContainer}>
@@ -236,34 +150,25 @@ const AddNewPet = () => {
               />
             </View>
 
-            <Text style={styles.label}>Email :</Text>
-            <View style={styles.shadowBox}>
-              <TextInput
-                style={styles.input}
-                keyboardType="email-address"
-                value={email}
-                editable={false}
-              />
-            </View>
-
             <Text style={styles.label}>City :</Text>
             <View style={styles.shadowBox}>
               <TextInput
                 style={styles.input}
+                placeholder="Enter Your Nearest City"
                 keyboardType="default"
-                value={email}
-                editable={false}
+                value={city}
+                onChangeText={text => setCity(text)}
               />
             </View>
 
-            <Text style={styles.label}>Pet Details</Text>
+            <Text style={styles.headerPetText}>Pet Details</Text>
 
             <Text style={styles.label}>Name :</Text>
             <View style={styles.shadowBox}>
               <TextInput
                 style={styles.input}
                 placeholder="Enter your Pet's Name"
-                value={centerName}
+                value={petName}
               onChangeText={text => setPetName(text)}
               />
             </View>
@@ -274,8 +179,8 @@ const AddNewPet = () => {
                 style={styles.input}
                 placeholder="Enter Your Pet's age"
                 keyboardType="phone-pad"
-                value={contactPersonName}
-              onChangeText={text => setContactPersonName(text)}
+                value={petAge}
+              onChangeText={text => setPetAge(text)}
               />
             </View>
 
@@ -285,8 +190,8 @@ const AddNewPet = () => {
                 style={styles.input}
                 placeholder="Enter Your Pet's Gender"
                 keyboardType="default"
-                value={webSiteUrl}
-              onChangeText={text => setWebSiteUrl(text)}
+                value={petGender}
+              onChangeText={text => setpetGender(text)}
               />
             </View>
 
@@ -296,8 +201,8 @@ const AddNewPet = () => {
                 style={styles.input}
                 keyboardType="default"
                 placeholder="Enter Your Pet's breed "
-                value={centerEmail}
-                onChangeText={text => setCenterEmail(text)}
+                value={petBreed}
+                onChangeText={text => setpetBreed(text)}
               />
             </View>
 
@@ -310,8 +215,8 @@ const AddNewPet = () => {
                 multiline = {true}
                 numberOfLines={5}
                 textAlignVertical="top"
-                value={description}
-              onChangeText={text => setDescription(text)}
+                value={petPersonality}
+              onChangeText={text => setpetPersonality(text)}
               />
             </View>
 
@@ -324,8 +229,8 @@ const AddNewPet = () => {
                 multiline = {true}
                 numberOfLines={5}
                 textAlignVertical="top"
-                value={experience}
-              onChangeText={text => setExperience(text)}
+                value={petMed}
+              onChangeText={text => setPetMed(text)}
               />
             </View>
 
@@ -333,22 +238,11 @@ const AddNewPet = () => {
 
           <View style={styles.buttonContainer}>
             <View>
-               <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
-              <Text style={styles.buttonTextsave}>Save Changes</Text>
+               <TouchableOpacity style={styles.saveButton} onPress={requestBooking}>
+              <Text style={styles.buttonTextsave}>Request Booking</Text>
             </TouchableOpacity>
             </View>
            
-            <View style={styles.horizontalButtonContainer}>
-              <View>
-                <TouchableOpacity
-                style={styles.deleteAccountButton}
-                onPress={deletePetHandler}
-              >
-                <Text style={styles.buttonText}>Delete Pet</Text>
-              </TouchableOpacity>
-              </View>
-            </View>
-            
             
           </View>
         </View>
@@ -379,6 +273,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginTop: 55,
+  },
+  headerPetText:{
+    color: Colors.scondory,
+    textAlign: "center",
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 30,
   },
   contentContainer: {
     flexDirection: "row",
@@ -453,7 +354,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: Colors.ternary,
     marginBottom: 10,
-    padding: 15,
+    padding: 14,
     elevation: 6,
   },
   shadowBoxArea:{
@@ -484,8 +385,8 @@ const styles = StyleSheet.create({
     marginBottom:20
   },
   saveButton: {
-    width: "50%", // Take up full width
-    marginLeft: 100,
+    width: "65%", // Take up full width
+    alignSelf: "center",
     height: 54,
     borderRadius: 20,
     backgroundColor: Colors.Btn_Positive,
@@ -499,24 +400,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom:15
   },
-  updatePasswordButton: {
-    width: 160, 
-    marginLeft: 25,
-    height: 54,
-    borderRadius: 20,
-    backgroundColor: Colors.Btn_Negative,
-    justifyContent: "center",
-    elevation:10
-  },
-  deleteAccountButton: {
-    width: 160, 
-    marginRight: 25,
-    height: 54,
-    borderRadius: 20,
-    backgroundColor: Colors.Btn_Negative,
-    justifyContent: "center",
-    elevation:10
-  },
   buttonTextsave: {
     color: Colors.scondory,
     fontSize: 30,
@@ -529,23 +412,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  logoutButton: {
-    width: 100,
-    height: 54,
-    marginTop: 15,
-    marginBottom: 50,
-    borderRadius: 20,
-    backgroundColor: Colors.btn_Danger,
-    justifyContent: "center",
-    marginLeft: 140,
-    elevation:10
-  },
-  logoutButtonText: {
-    color: Colors.scondory,
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
+
   backgroundBox: {
     width: 400,
     borderRadius: 50,

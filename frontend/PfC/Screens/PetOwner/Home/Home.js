@@ -74,12 +74,12 @@ const Home = () => {
       <ScrollView>
 
         <View >
-          <Text style={styles.headerText}> Search </Text>
+          <Text style={styles.title}> Search </Text>
         </View>
 
         <View>
           <View >
-            <Text style={styles.headerText}> Pet care centers</Text>
+            <Text style={styles.title}> Pet care centers</Text>
           </View>
 
           {careCenters.map((center, index) => (
@@ -92,7 +92,7 @@ const Home = () => {
               style={styles.bookButton}
               onPress={() => bookHandler(center)}
             >
-              <Text style={styles.bookButtonText}>Book Now</Text>
+              <Text style={styles.bookButtonText}>See More</Text>
             </TouchableOpacity>
             </View>
 
@@ -103,7 +103,7 @@ const Home = () => {
 
         <View>
           <View >
-            <Text style={styles.headerText}> Pet Sitters</Text>
+            <Text style={styles.title}> Pet Sitters</Text>
           </View>
 
           {petSitters.map((sitter, index) => (
@@ -114,9 +114,9 @@ const Home = () => {
               <View>
               <TouchableOpacity
               style={styles.bookButton}
-              onPress={() => bookSitterHandler(center)}
+              onPress={() => bookSitterHandler(sitter)}
             >
-              <Text style={styles.bookButtonText}>Book Now</Text>
+              <Text style={styles.bookButtonText}>See More</Text>
             </TouchableOpacity>
             </View>
 
@@ -154,6 +154,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 55,
   },
+  title:{
+      color: Colors.scondory,
+      textAlign: "center",
+      fontSize: 24,
+      fontWeight: "bold",
+      marginTop: 20,
+   
+  },
   careCenterBox: {
     borderWidth: 1,
     borderColor: "#000",
@@ -162,40 +170,41 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   backgroundBox: {
-    width: 150,
+    width: 360,
     height: 100,
-    borderRadius: 50,
+    borderRadius: 40,
     backgroundColor: Colors.transparent_bgCard,
-    margin:10
+    margin:10,
+    alignSelf: 'center',
   },
   centerNameText: {
-    color: "#3D3836",
-    textAlign: "center",
+    color: Colors.scondory,
+    fontWeight: "bold",
     fontSize: 24,
     fontWeight: "400",
-    alignSelf: "center",
     position: "relative",
     marginTop: 8,
+    marginLeft:50
+    
   },
   cityText:{
     color: "#3D3836",
-    textAlign: "center",
     fontSize: 18,
     fontWeight: "400",
-    alignSelf: "center",
     position: "relative",
     marginTop: 13,
+    marginLeft: 70
   },
 
   bookButton: {
-    width: "50%", // Take up full width
-    // marginLeft: 100,
+    width: "40%", // Take up full width
+    marginLeft: 180,
     height: 54,
     borderRadius: 20,
-    backgroundColor: Colors.Btn_Positive,
+    backgroundColor:Colors.ternary,
     justifyContent: "center",
-    // marginBottom: 20,
-    // elevation:10 
+    marginTop: -40,
+    
   },
   bookButtonText: {
     color: Colors.scondory,

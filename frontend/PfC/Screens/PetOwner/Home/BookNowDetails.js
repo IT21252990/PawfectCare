@@ -27,6 +27,11 @@ const BookNowDetails = ({ route }) => {
 
     const navigation = useNavigation();
 
+    const bookNowHandler = () => {
+      
+      navigation.navigate('AddNewPet', { selectedItem: route.params.selectedItem });
+    };
+  
  
 
     return (
@@ -143,7 +148,7 @@ const BookNowDetails = ({ route }) => {
                 <View>
                    <TouchableOpacity 
                     style={styles.saveButton} 
-                    // onPress={BookNow}
+                    onPress={ bookNowHandler }
                     >
                   <Text style={styles.buttonTextsave}>Book Now</Text>
                 </TouchableOpacity>
