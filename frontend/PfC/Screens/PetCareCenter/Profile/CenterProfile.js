@@ -239,31 +239,11 @@ const CenterProfile = () => {
         onPress: async () => {
           try {
             await signOut(auth);
-
-            // Display a success toast message
-            Toast.show({
-              type: "success",
-              position: "bottom",
-              text1: "Logged Out",
-              text2: "You have been successfully logged out.",
-              visibilityTime: 3000, // 3 seconds
-              autoHide: true,
-            });
             console.log(accountHolderName, "is Signed out");
             // Navigate to the login screen
             navigation.navigate("LoginPage");
           } catch (error) {
             console.error("Error logging out: ", error);
-
-            // Display an error toast message
-            Toast.show({
-              type: "error",
-              position: "bottom",
-              text1: "Error",
-              text2: "There was an error while logging out. Please try again.",
-              visibilityTime: 3000, // 3 seconds
-              autoHide: true,
-            });
           }
         },
       },

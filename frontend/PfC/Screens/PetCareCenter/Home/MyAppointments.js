@@ -24,8 +24,35 @@ import Toast from "react-native-toast-message";
 import Colors from "../../../assets/colors/colors";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 
+const MyAppointments = () => {
+  const [centerID, setCenterID] = useState(null);
+  const [bookings, setBookings] = useState([]);
 
-const CenterProfile = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCenterID(user.uid);
+      } else {
+        navigation.navigate("LoginPage");
+      }
+      const querySnapshot = await getDocs(collection(FIRESTORE_DB, "bookings"));
+      const bookingsDetails = [];
+      querySnapshot.forEach((doc) => {
+        const bData = doc.data();
+        if (centerID == bData.centerId) {
+          bookingsDetails.push(bData);
+        }
+      });
+      setBookings(bookingsDetails);
+    });
+  }, []);
+
+  const bookHandler = (selectedItem) => {
+    navigation.navigate("BookingAcceptNowDetails", { selectedItem })
+  }
 
   return (
     <ImageBackground
@@ -37,15 +64,31 @@ const CenterProfile = () => {
         <Text style={styles.headerText}>My APPOINTMENTS</Text>
       </View>
       <ScrollView>
-      
-
-       
+        {bookings.map((booking, index) => (
+          <View key={index}>
+            <TouchableOpacity
+            onPress={() => bookHandler(booking)}
+            >
+              <View style={styles.cardContainer}>
+                <View style={styles.avatarContainer}>
+                  <Image
+                    source={require("../../../assets/images/loginpic.png")}
+                    style={styles.avatarImage}
+                  />
+                </View>
+                <Text style={styles.userName}>
+                  {booking.petName} :- ( {booking.city} )
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ))}
       </ScrollView>
     </ImageBackground>
   );
 };
 
-export default CenterProfile;
+export default MyAppointments;
 
 const styles = StyleSheet.create({
   container: {
@@ -56,8 +99,8 @@ const styles = StyleSheet.create({
     height: 100,
     marginLeft: 0,
     marginTop: 0,
-    borderBottomLeftRadius:40,
-    borderBottomRightRadius:40,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
     backgroundColor: Colors.top_title_bar,
     alignItems: "center",
     elevation: 40,
@@ -97,6 +140,39 @@ const styles = StyleSheet.create({
       "linear-gradient(180deg, #FFD2A6 96.35%, rgba(255, 126, 0, 0.00) 100%)",
     justifyContent: "center",
     alignItems: "center",
+  },
+  cardContainer: {
+    backgroundColor: Colors.transparent_bgCard,
+    elevation: 5,
+    height: 80,
+    width: 350,
+    marginTop: 20,
+    marginBottom: 10,
+    flexDirection: "column",
+    alignSelf: "center",
+    borderRadius: 20,
+  },
+  userName: {
+    fontSize: 25,
+    fontWeight: "bold",
+    marginLeft: 100,
+    marginTop: 25,
+    color: Colors.scondory,
+  },
+  avatarContainer: {
+    borderWidth: 2,
+    width: 60,
+    height: 60,
+    position: "absolute",
+    borderRadius: 60,
+    backgroundColor: Colors.ternary,
+    marginLeft: 20,
+    marginTop: 10,
+    borderColor: Colors.primary,
+  },
+  avatarImage: {
+    width: 55,
+    height: 55,
   },
   badgeText: {
     width: 81,

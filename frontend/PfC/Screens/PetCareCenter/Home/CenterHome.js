@@ -145,7 +145,7 @@ const CenterProfile = () => {
           <View style={styles.contentContainer}>
             <View style={styles.avatarContainer}>
               <Image
-                source={require("../../../assets/images/loginpic.png")}
+                source={require("../../../assets/images/pet-carecenter-card.png")}
                 style={styles.avatarImage}
               />
             </View>
@@ -313,15 +313,14 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     borderRadius: 110,
-    backgroundColor: Colors.ternary,
     elevation: 30,
     marginTop: 20,
     marginLeft: 20,
   },
   avatarImage: {
-    width: 110,
-    height: 110,
-    borderRadius: 110,
+    width: 100,
+    height: 100,
+    marginLeft:5
   },
   calenderView: {
     width: 110,
