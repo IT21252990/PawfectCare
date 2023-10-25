@@ -8,19 +8,23 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import {
   getAuth,
   onAuthStateChanged,
   signOut,
   deleteUser,
+  sendPasswordResetEmail
 } from "firebase/auth";
 import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 import { collection, getDocs } from "firebase/firestore";
-import { FIRESTORE_DB } from "../../../firebaseConfig";
+import { FIREBASE_AUTH, FIRESTORE_DB , FIREBASE_APP } from "../../../firebaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import Colors from "../../../assets/colors/colors";
+import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+
 
 const CenterProfile = () => {
   const [user, setUser] = useState(null);
@@ -38,6 +42,37 @@ const CenterProfile = () => {
   const [description, setDescription] = useState("");
   const [experience, setExperience] = useState("");
   const [servicesProvided, setServicesProvided] = useState("");
+  const [availability, setAvailability] = useState("");
+
+  // useEffect(() => {
+  //   const auth = getAuth();
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       setUser(user);
+  //       setEmail(user.email);
+  //       setAccountHolderName(user.username); // Set the email state with the user's email
+  //       fetchUserData(user.uid);
+  //     } else {
+  //       navigation.navigate("LoginPage");
+  //     }
+  //   });
+
+  //   onAuthStateChanged(auth, async (user) => {
+  //     if (user) {
+  //       const uid = user.uid;
+  //       const querySnapshot = await getDocs(collection(FIRESTORE_DB, "users"));
+  //       querySnapshot.forEach((doc) => {
+  //         const userAccountData = doc.data();
+  //         if (userAccountData.uid === uid) {
+  //           setAccountHolderName(userAccountData.username);
+  //         }
+  //       });
+  //     } else {
+  //       // User is signed out
+  //       navigation.navigate("LoginPage");
+  //     }
+  //   });
+  // }, []);
 
   useEffect(() => {
     const auth = getAuth();
@@ -70,7 +105,6 @@ const CenterProfile = () => {
   }, []);
 
 
-
   const fetchUserData = async (userId) => {
     const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", userId);
     const docSnapshot = await getDoc(userDocRef); // Use getDoc to fetch the data
@@ -88,10 +122,9 @@ const CenterProfile = () => {
       setDescription(userData.description || "");
       setExperience(userData.experience || "");
       setServicesProvided(userData.servicesProvided || "");
+      setAvailability(userData.availability || "");
     }
   };
-
-
 
   const saveChanges = async () => {
     if (!user) {
@@ -99,80 +132,142 @@ const CenterProfile = () => {
       return;
     }
 
-    try {
-      // Save additional profile data to Firestore
-      const userDocRef = doc(FIRESTORE_DB, "care_Center_Profiles", user.uid);
-      await setDoc(userDocRef, {
-        uid:user.uid,
-        accountHolderName,
-        centerName,
-        contactPersonName,
-        webSiteUrl,
-        contactNumber,
-        email,
-        centerEmail,
-        address,
-        city,
-        description,
-        experience,
-        servicesProvided,
-        role: "PetCareCenter",
-      });
+    Alert.alert(
+      "Confirm Changes",
+      "Are you sure you want to save these modified details?",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => {},
+        },
+        {
+          text: "Save",
+          style: "default",
+          onPress: async () => {
+            try {
+              // Save additional profile data to Firestore
+              const userDocRef = doc(
+                FIRESTORE_DB,
+                "care_Center_Profiles",
+                user.uid
+              );
+              await setDoc(userDocRef, {
+                uid: user.uid,
+                accountHolderName,
+                centerName,
+                contactPersonName,
+                webSiteUrl,
+                contactNumber,
+                email,
+                centerEmail,
+                address,
+                city,
+                description,
+                experience,
+                servicesProvided,
+                availability,
+                role: "PetCareCenter",
+              });
 
-      // Data saved successfully
-      console.log("Profile data saved successfully.");
-      Toast.show({
-        type: "success",
-        position: "bottom",
-        text1: "Success",
-        text2: "Profile data saved successfully.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
-    } catch (error) {
-      console.error("Error saving profile data: ", error);
-      Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Error",
-        text2:
-          "There was an error while saving your profile data. Please try again.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
-    }
+              // Data saved successfully
+              console.log("Profile data saved successfully.");
+              Toast.show({
+                type: "success",
+                position: "bottom",
+                text1: "Success",
+                text2: "Profile data saved successfully.",
+                visibilityTime: 3000, // 3 seconds
+                autoHide: true,
+              });
+            } catch (error) {
+              console.error("Error saving profile data: ", error);
+              Toast.show({
+                type: "error",
+                position: "bottom",
+                text1: "Error",
+                text2:
+                  "There was an error while saving your profile data. Please try again.",
+                visibilityTime: 3000, // 3 seconds
+                autoHide: true,
+              });
+            }
+          },
+        },
+      ]
+    );
   };
+
+
+  const changePassword = () => {
+    const auth = getAuth(FIREBASE_APP);
+    Alert.alert("Confirm Reset Password !", "Are you sure you want to Reset Your Password?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+        onPress: () => {},
+      },
+      {
+        text: "Reset Password",
+        style: "default",
+        onPress: async () => {
+             sendPasswordResetEmail(auth, auth.currentUser.email)
+        .then(() => {
+          Alert.alert("Password Reset Email was Sent " , "Please Check Your inbox"); // Use `Alert.alert` instead of `Alert` for displaying the alert
+        })
+        .catch((error) => {
+          Alert.alert(error.message); // Use `Alert.alert` to display the error message
+        });
+        },
+      },
+    ]);
+   
+  }
 
   const logoutHandler = async () => {
     const auth = getAuth();
-    try {
-      await signOut(auth);
 
-      // Display a success toast message
-      Toast.show({
-        type: "success",
-        position: "bottom",
-        text1: "Logged Out",
-        text2: "You have been successfully logged out.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
+    Alert.alert("Confirm Logout", "Are you sure you want to log out?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+        onPress: () => {},
+      },
+      {
+        text: "Logout",
+        style: "default",
+        onPress: async () => {
+          try {
+            await signOut(auth);
 
-      // Navigate to the login screen
-      navigation.navigate("LoginPage");
-    } catch (error) {
-      console.error("Error logging out: ", error);
+            // Display a success toast message
+            Toast.show({
+              type: "success",
+              position: "bottom",
+              text1: "Logged Out",
+              text2: "You have been successfully logged out.",
+              visibilityTime: 3000, // 3 seconds
+              autoHide: true,
+            });
+            console.log(accountHolderName, "is Signed out");
+            // Navigate to the login screen
+            navigation.navigate("LoginPage");
+          } catch (error) {
+            console.error("Error logging out: ", error);
 
-      // Display an error toast message
-      Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Error",
-        text2: "There was an error while logging out. Please try again.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
-    }
+            // Display an error toast message
+            Toast.show({
+              type: "error",
+              position: "bottom",
+              text1: "Error",
+              text2: "There was an error while logging out. Please try again.",
+              visibilityTime: 3000, // 3 seconds
+              autoHide: true,
+            });
+          }
+        },
+      },
+    ]);
   };
 
   const deleteFirestoreData = async (userId) => {
@@ -190,33 +285,50 @@ const CenterProfile = () => {
     const user = auth.currentUser;
 
     if (user) {
-      try {
-        await deleteUser(user);
-        // Delete Firestore data
-        deleteFirestoreData(user.uid);
-        // Display a success message and navigate to the login screen
-        Toast.show({
-          type: "success",
-          position: "bottom",
-          text1: "Account Deleted",
-          text2: "Your account has been successfully deleted.",
-          visibilityTime: 3000,
-          autoHide: true,
-        });
-        navigation.navigate("LoginPage");
-      } catch (error) {
-        console.error("Error deleting account: ", error);
-        // Display an error message
-        Toast.show({
-          type: "error",
-          position: "bottom",
-          text1: "Error",
-          text2:
-            "There was an error while deleting your account. Please try again.",
-          visibilityTime: 3000,
-          autoHide: true,
-        });
-      }
+      Alert.alert(
+        "Confirm Account Deletion",
+        "Are you sure you want to delete your account? This action is irreversible, and you will permanently lose access to Pawfect Care.",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+            onPress: () => {},
+          },
+          {
+            text: "Delete Account",
+            style: "destructive",
+            onPress: async () => {
+              try {
+                await deleteUser(user);
+                // Delete Firestore data
+                deleteFirestoreData(user.uid);
+                // Display a success message and navigate to the login screen
+                Toast.show({
+                  type: "success",
+                  position: "bottom",
+                  text1: "Account Deleted",
+                  text2: "Your account has been successfully deleted.",
+                  visibilityTime: 3000,
+                  autoHide: true,
+                });
+                navigation.navigate("LoginPage");
+              } catch (error) {
+                console.error("Error deleting account: ", error);
+                // Display an error message
+                Toast.show({
+                  type: "error",
+                  position: "bottom",
+                  text1: "Error",
+                  text2:
+                    "There was an error while deleting your account. Please try again.",
+                  visibilityTime: 3000,
+                  autoHide: true,
+                });
+              }
+            },
+          },
+        ]
+      );
     } else {
       console.error("No authenticated user found.");
     }
@@ -248,7 +360,7 @@ const CenterProfile = () => {
 
         <View style={styles.backgroundBox}>
           <View style={styles.formContainer}>
-          <Text style={styles.label}>Account Holder Name :</Text>
+            <Text style={styles.label}>Account Holder Name :</Text>
             <View style={styles.shadowBox}>
               <TextInput
                 style={styles.input}
@@ -263,7 +375,7 @@ const CenterProfile = () => {
                 style={styles.input}
                 placeholder="Enter your Center Name"
                 value={centerName}
-              onChangeText={text => setCenterName(text)}
+                onChangeText={(text) => setCenterName(text)}
               />
             </View>
 
@@ -273,7 +385,7 @@ const CenterProfile = () => {
                 style={styles.input}
                 placeholder="Enter Contact Person Name"
                 value={contactPersonName}
-              onChangeText={text => setContactPersonName(text)}
+                onChangeText={(text) => setContactPersonName(text)}
               />
             </View>
 
@@ -284,7 +396,7 @@ const CenterProfile = () => {
                 placeholder="Add URL of your Site"
                 keyboardType="default"
                 value={webSiteUrl}
-              onChangeText={text => setWebSiteUrl(text)}
+                onChangeText={(text) => setWebSiteUrl(text)}
               />
             </View>
 
@@ -295,7 +407,7 @@ const CenterProfile = () => {
                 placeholder="Enter Contact Number "
                 keyboardType="phone-pad"
                 value={contactNumber}
-              onChangeText={text => setContactNumber(text)}
+                onChangeText={(text) => setContactNumber(text)}
               />
             </View>
 
@@ -316,7 +428,7 @@ const CenterProfile = () => {
                 keyboardType="email-address"
                 placeholder="Enter Email of your Center "
                 value={centerEmail}
-                onChangeText={text => setCenterEmail(text)}
+                onChangeText={(text) => setCenterEmail(text)}
               />
             </View>
 
@@ -327,7 +439,7 @@ const CenterProfile = () => {
                 placeholder="Enter your Address"
                 keyboardType="default"
                 value={address}
-              onChangeText={text => setAddress(text)}
+                onChangeText={(text) => setAddress(text)}
               />
             </View>
 
@@ -338,85 +450,97 @@ const CenterProfile = () => {
                 placeholder="Enter your City"
                 keyboardType="default"
                 value={city}
-              onChangeText={text => setCity(text)}
+                onChangeText={(text) => setCity(text)}
               />
             </View>
 
-            <Text style={styles.label}>Description About Center :  </Text>
+            <Text style={styles.label}>Availability : </Text>
+            <View style={styles.shadowBox}>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Availability of center ( as % value )"
+                keyboardType="numeric"
+                value={availability}
+                onChangeText={(text) => setAvailability(text)}
+              />
+            </View>
+
+            <Text style={styles.label}>Description About Center : </Text>
             <View style={styles.shadowBoxArea}>
               <TextInput
                 style={styles.inputArea}
                 placeholder="Enter Description About Center "
                 keyboardType="default"
-                multiline = {true}
+                multiline={true}
                 numberOfLines={5}
                 textAlignVertical="top"
                 value={description}
-              onChangeText={text => setDescription(text)}
+                onChangeText={(text) => setDescription(text)}
               />
             </View>
 
-            <Text style={styles.label}>Experience :  </Text>
+            <Text style={styles.label}>Experience : </Text>
             <View style={styles.shadowBoxArea}>
               <TextInput
                 style={styles.inputArea}
                 placeholder="Enter Experiences : "
                 keyboardType="default"
-                multiline = {true}
+                multiline={true}
                 numberOfLines={5}
                 textAlignVertical="top"
                 value={experience}
-              onChangeText={text => setExperience(text)}
+                onChangeText={(text) => setExperience(text)}
               />
             </View>
 
-            <Text style={styles.label}>Providing Services  & Prices   :</Text>
+            <Text style={styles.label}>Providing Services & Prices :</Text>
             <View style={styles.shadowBoxArea}>
               <TextInput
                 style={styles.inputArea}
                 placeholder="Enter Providing Services  & Prices (in LKR)"
                 keyboardType="default"
-                multiline = {true}
+                multiline={true}
                 numberOfLines={5}
                 textAlignVertical="top"
                 value={servicesProvided}
-              onChangeText={text => setServicesProvided(text)}
+                onChangeText={(text) => setServicesProvided(text)}
               />
             </View>
-
           </View>
 
           <View style={styles.buttonContainer}>
             <View>
-               <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
-              <Text style={styles.buttonTextsave}>Save Changes</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.saveButton} onPress={saveChanges}>
+                <Text style={styles.buttonTextsave}>Save Changes</Text>
+              </TouchableOpacity>
             </View>
-           
+
             <View style={styles.horizontalButtonContainer}>
               <View>
-                <TouchableOpacity style={styles.updatePasswordButton}>
-                <Text style={styles.buttonText}>Update Password</Text>
-              </TouchableOpacity>
+                <TouchableOpacity 
+                onPress={changePassword}
+                style={styles.updatePasswordButton}
+                >
+                  <Text style={styles.buttonText}>Update Password</Text>
+                </TouchableOpacity>
               </View>
               <View>
                 <TouchableOpacity
-                style={styles.deleteAccountButton}
-                onPress={deleteAccountHandler}
-              >
-                <Text style={styles.buttonText}>Delete Account</Text>
-              </TouchableOpacity>
+                  style={styles.deleteAccountButton}
+                  onPress={deleteAccountHandler}
+                >
+                  <Text style={styles.buttonText}>Delete Account</Text>
+                </TouchableOpacity>
               </View>
             </View>
             <View>
               <TouchableOpacity
-              style={styles.logoutButton}
-              onPress={logoutHandler}
-            >
-              <Text style={styles.logoutButtonText}>LOGOUT</Text>
-            </TouchableOpacity>
+                style={styles.logoutButton}
+                onPress={logoutHandler}
+              >
+                <Text style={styles.logoutButtonText}>LOGOUT</Text>
+              </TouchableOpacity>
             </View>
-            
           </View>
         </View>
       </ScrollView>
@@ -435,7 +559,8 @@ const styles = StyleSheet.create({
     height: 100,
     marginLeft: 0,
     marginTop: 0,
-    borderRadius: 40,
+    borderBottomLeftRadius:40,
+    borderBottomRightRadius:40,
     backgroundColor: Colors.top_title_bar,
     alignItems: "center",
     elevation: 40,
@@ -511,7 +636,7 @@ const styles = StyleSheet.create({
     color: Colors.scondory,
     fontSize: 18,
     fontWeight: "bold",
-    marginTop:5
+    marginTop: 5,
   },
   shadowBox: {
     width: 330,
@@ -523,7 +648,7 @@ const styles = StyleSheet.create({
     padding: 15,
     elevation: 6,
   },
-  shadowBoxArea:{
+  shadowBoxArea: {
     width: 330,
     height: 100,
     marginLeft: 30,
@@ -538,7 +663,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.scondory,
   },
-  inputArea:{
+  inputArea: {
     flex: 1,
     fontSize: 16,
     color: Colors.scondory,
@@ -548,7 +673,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     marginTop: 50,
-    marginBottom:20
+    marginBottom: 20,
   },
   saveButton: {
     width: "50%", // Take up full width
@@ -558,31 +683,31 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.Btn_Positive,
     justifyContent: "center",
     marginBottom: 20,
-    elevation:10 
+    elevation: 10,
   },
   horizontalButtonContainer: {
-    flexDirection: "row", 
+    flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 15,
-    marginBottom:15
+    marginBottom: 15,
   },
   updatePasswordButton: {
-    width: 160, 
+    width: 160,
     marginLeft: 25,
     height: 54,
     borderRadius: 20,
     backgroundColor: Colors.Btn_Negative,
     justifyContent: "center",
-    elevation:10
+    elevation: 10,
   },
   deleteAccountButton: {
-    width: 160, 
+    width: 160,
     marginRight: 25,
     height: 54,
     borderRadius: 20,
     backgroundColor: Colors.Btn_Negative,
     justifyContent: "center",
-    elevation:10
+    elevation: 10,
   },
   buttonTextsave: {
     color: Colors.scondory,
@@ -605,7 +730,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.btn_Danger,
     justifyContent: "center",
     marginLeft: 140,
-    elevation:10
+    elevation: 10,
   },
   logoutButtonText: {
     color: Colors.scondory,

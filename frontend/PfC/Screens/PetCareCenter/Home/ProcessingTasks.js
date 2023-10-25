@@ -34,7 +34,7 @@ const CenterProfile = () => {
       imageStyle={styles.background}
     >
       <View style={styles.header}>
-        <Text style={styles.headerText}>NOTIFICATIONS</Text>
+        <Text style={styles.headerText}>PROCESSING TASKS</Text>
       </View>
       <ScrollView>
       

@@ -9,14 +9,33 @@ import {
   ScrollView,
   Dimensions,
   Button,
+  Alert,
 } from "react-native";
 import Colors from "../assets/colors/colors";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { sendPasswordResetEmail, getAuth } from "firebase/auth";
+import { FIREBASE_AUTH, FIRESTORE_DB, FIREBASE_APP } from "../firebaseConfig";
 
 const ForgotPasswordPage = () => {
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState("");
+
+  const auth = getAuth(FIREBASE_APP);
+
+  const forgotPassword = (email) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert("Password reset email sent");
+      })
+      .catch((error) => {
+        console.error("Firebase Error:", error.code, error.message);
+        Alert.alert("Password reset failed: " + error.message);
+      });
+  };
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={{
@@ -50,6 +69,8 @@ const ForgotPasswordPage = () => {
                 placeholder="Enter your email"
                 placeholderTextColor={Colors.scondory}
                 keyboardType="email-address"
+                value={email}
+                onChangeText={(text) => setEmail(text)}
                 style={styles.input}
               />
             </View>
@@ -72,7 +93,10 @@ const ForgotPasswordPage = () => {
             >
               <Text style={styles.btnCancel}>CENCEL</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.loginBtnContainer}>
+            <TouchableOpacity
+              onPress={forgotPassword}
+              style={styles.loginBtnContainer}
+            >
               <Text style={styles.btnLogin}>SEND REQUEST</Text>
             </TouchableOpacity>
           </View>
