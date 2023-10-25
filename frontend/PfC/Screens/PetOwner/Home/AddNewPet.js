@@ -178,7 +178,6 @@ const AddNewPet = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Enter Your Pet's age"
-                keyboardType="phone-pad"
                 value={petAge}
               onChangeText={text => setPetAge(text)}
               />
