@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect   } from "react";
 import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
 import { getAuth, onAuthStateChanged , signOut , deleteUser} from "firebase/auth";
 import { doc, setDoc,getDoc,deleteDoc , collection } from 'firebase/firestore';
 import { FIRESTORE_DB } from "../../../firebaseConfig";
-import { useNavigation } from '@react-navigation/native';
-import Toast from "react-native-toast-message";
+import { useNavigation} from '@react-navigation/native';
+
+import Colors from "../../../assets/colors/colors";
 
 
 const PetSitterProfile = () => {
@@ -22,6 +23,9 @@ const PetSitterProfile = () => {
   const [description, setDescription] = useState("");
   const [experience, setExperience] = useState("");
   const [servicesProvided, setServicesProvided] = useState("");
+
+  
+  
 
   useEffect(() => {
     const auth = getAuth();
@@ -93,27 +97,12 @@ const PetSitterProfile = () => {
         role: "Pet Sitter",
       });
 
-      // Data saved successfully
       console.log("Profile data saved successfully.");
       navigation.navigate('SitterBottomNavigation');
-      Toast.show({
-        type: "success",
-        position: "bottom",
-        text1: "Success",
-        text2: "Profile data saved successfully.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
+      
     } catch (error) {
       console.error("Error saving profile data: ", error);
-      Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Error",
-        text2: "There was an error while saving your profile data. Please try again.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
+      
     }
   };
 
@@ -124,30 +113,14 @@ const PetSitterProfile = () => {
     try {
       await signOut(auth);
 
-      // Display a success toast message
-      Toast.show({
-        type: "success",
-        position: "bottom",
-        text1: "Logged Out",
-        text2: "You have been successfully logged out.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
+      
 
       // Navigate to the login screen
       navigation.navigate('LoginPage');
     } catch (error) {
       console.error("Error logging out: ", error);
 
-      // Display an error toast message
-      Toast.show({
-        type: "error",
-        position: "bottom",
-        text1: "Error",
-        text2: "There was an error while logging out. Please try again.",
-        visibilityTime: 3000, // 3 seconds
-        autoHide: true,
-      });
+      
     }
   };
 
@@ -178,27 +151,11 @@ await deleteDoc(userDocRef);
         // Delete the user's account
         await deleteUser(user);
   
-        // Display a success message and navigate to the login screen
-        Toast.show({
-          type: "success",
-          position: "bottom",
-          text1: "Account Deleted",
-          text2: "Your account and data have been successfully deleted.",
-          visibilityTime: 3000,
-          autoHide: true,
-        });
+        
         navigation.navigate('LoginPage');
       } catch (error) {
         console.error("Error deleting account: ", error);
-        // Display an error message
-        Toast.show({
-          type: "error",
-          position: "bottom",
-          text1: "Error",
-          text2: "There was an error while deleting your account. Please try again.",
-          visibilityTime: 3000,
-          autoHide: true,
-        });
+        
       }
     } else {
       // Handle the case where there is no authenticated user
@@ -244,7 +201,7 @@ await deleteDoc(userDocRef);
         <Text style={styles.label}>WebSite:</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter your website"
+          placeholder="Enter your URL "
           value={website}
           onChangeText={text => setWebsite(text)}
           
@@ -266,31 +223,43 @@ await deleteDoc(userDocRef);
 />
         <Text style={styles.label}>Address:</Text>
         <TextInput
-          style={styles.input}
-          placeholder="Enter your address"
-          value={address}
-          onChangeText={text => setAddress(text)}
-        />
+  style={styles.inputAddress}
+  placeholder="Enter your address"
+  value={address}
+  onChangeText={text => setAddress(text)}
+  multiline={true}
+  numberOfLines={1}
+  textAlignVertical="top"
+/>
         <Text style={styles.label}>Description about Pet Sitter:</Text>
         <TextInput
-          style={styles.input}
-          placeholder="Enter your description"
+          style={styles.inputDescription}
+          placeholder="Enter Description About you"
           value={description}
           onChangeText={text => setDescription(text)}
+          multiline={true}
+  numberOfLines={1}
+  textAlignVertical="top"
         />
         <Text style={styles.label}>Experience:</Text>
         <TextInput
-          style={styles.input}
-          placeholder="Enter your experience"
+          style={styles.inputExperience}
+          placeholder="your experience"
           value={experience}
           onChangeText={text => setExperience(text)}
+          multiline={true}
+  numberOfLines={1}
+  textAlignVertical="top"
         />
         <Text style={styles.label}>Providing Services:</Text>
         <TextInput
-          style={styles.input}
-          placeholder="Enter services provided"
+          style={styles.inputProviding}
+          placeholder="Enter Providing Services  & Prices"
           value={servicesProvided}
           onChangeText={text => setServicesProvided(text)}
+          multiline={true}
+  numberOfLines={1}
+  textAlignVertical="top"
         />
       </View>
       
@@ -313,6 +282,7 @@ await deleteDoc(userDocRef);
       </View>
       </View>
       </ScrollView>
+
     </ImageBackground>
   );
 };
@@ -404,13 +374,13 @@ const styles = StyleSheet.create({
       marginTop: 20,
     },
     label: {
-      width: 350,
-      height: 24,
-      marginLeft: 20,
-      color: "#3D3836",
+      width: "auto",
+      height: 30,
+      marginLeft: 15,
+      color: Colors.scondory,
       fontSize: 18,
-      fontStyle: "normal",
-      fontWeight: "400",
+      fontWeight: "bold",
+      marginTop:5
     },
     input: {
       width: 300,
@@ -513,4 +483,43 @@ const styles = StyleSheet.create({
       margin: 10,
       marginBottom:40,
     },
+    inputAddress: {
+      width: 300,
+      height: 90,
+      marginLeft: 10,
+      borderRadius: 20,
+      backgroundColor: "#FFD2A6",
+      marginBottom: 10,
+      padding :15 ,
+    },
+    inputDescription: {
+      width: 300,
+      height: 90,
+      marginLeft: 10,
+      borderRadius: 20,
+      backgroundColor: "#FFD2A6",
+      marginBottom: 10,
+      padding :15 ,
+    },
+    inputExperience: {
+      width: 300,
+      height: 90,
+      marginLeft: 10,
+      borderRadius: 20,
+      backgroundColor: "#FFD2A6",
+      marginBottom: 10,
+      padding :15 ,
+    },
+    inputProviding: {
+      width: 300,
+      height: 90,
+      marginLeft: 10,
+      borderRadius: 20,
+      backgroundColor: "#FFD2A6",
+      marginBottom: 10,
+      padding :15 ,
+    },
+    
+
+
 });

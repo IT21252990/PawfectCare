@@ -16,20 +16,13 @@ import SignUpPagePetCareCenter from "./Screens/SignUpPagePetCareCenter";
 
 //pet care center
 import CenterBottomNavigation from "./Screens/PetCareCenter/Navigations/CenterBottomNavigation";
+import CenterChat from "./Screens/PetCareCenter/Chat/CenterChat"
 
 // pet owner
 import BottomNavigation from "./Screens/PetOwner/Navigations/BottomNavigation"
 
 // pet sitter
-import SitterBottomNavigation from "./Screens/PetSitter/Navigation/BottomNavigation";
-import PetSitterProfile from "./Screens/PetSitter/Profile/PetSitterProfilePage";
-import PetSitterDashboard from "./Screens/PetSitter/Home/SitterDashboard";
-import AppointmentDetails from "./Screens/PetSitter/Appointments/AppointmentDetail";
-import MyTaskDetails from "./Screens/PetSitter/Tasks/MyTaskDetails";
-import Appointments from "./Screens/PetSitter/Appointments/Appointments";
-import MyTasks from "./Screens/PetSitter/Tasks/MyTasks";
-import History from "./Screens/PetSitter/History";
-import chatDisplay from "./Screens/PetSitter/Chat/ChatDisplay"
+import SitterBottomNavigation from "./Screens/PetSitter/Navigation/SitterBottomNavigation";
 
 
 const Stack = createNativeStackNavigator();
@@ -100,6 +93,17 @@ export default function App() {
           }}
         />
 
+        <Stack.Screen
+          name="CenterChat"
+          component={CenterChat}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+
+
+
         {/* pet care center end */}
 
         {/* pet Owner routes */}
@@ -118,73 +122,6 @@ export default function App() {
         <Stack.Screen
           name="SitterBottomNavigation"
           component={SitterBottomNavigation}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-<Stack.Screen
-          name="PetSitterProfile"
-          component={PetSitterProfile}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-      
-
-        
-
-        <Stack.Screen
-          name="PetSitterDashboard"
-          component={PetSitterDashboard}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="AppointmentDetails"
-          component={AppointmentDetails}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="MyTaskDetails"
-          component={MyTaskDetails}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="Appointments"
-          component={Appointments}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="MyTasks"
-          component={MyTasks}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="History"
-          component={History}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="chatDisplay"
-          component={chatDisplay}
           options={{
             headerShown: false,
           }}

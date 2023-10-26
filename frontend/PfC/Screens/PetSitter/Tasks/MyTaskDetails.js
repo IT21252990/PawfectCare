@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -139,10 +140,17 @@ const styles = StyleSheet.create({
 });
 
 const PetSitterProfile = () => {
-  // Define fake pet details
+
+  const navigation = useNavigation();
+
+
+
+  const handleComplete =() => {
+    navigation.navigate("History");
+  }
   const fakePetDetails = {
-    name: "Charlie",
-    owner: "Jorn",
+    name: "Kitty",
+    owner: "Thomas",
     breed: "Domestic Shorthair",
     age: "2 years old",
     color: "Gray with white paws and chest",
@@ -152,7 +160,7 @@ const PetSitterProfile = () => {
     feeding: "Charlie is fed twice a day, in the morning and evening. He prefers wet food but enjoys occasional treats of dry kibbles.",
     specialInstructions:
       "Please ensure that windows and balcony doors are securely closed during the cat sitting period. If Charlie shows signs of restlessness or unusual behavior, providing interactive playtime can help.",
-    emergencyContact: "Emergency Contact: 0777777777 / Jorn@gmail.com",
+    emergencyContact: "0775632543",
   };
 
   return (
@@ -221,7 +229,7 @@ const PetSitterProfile = () => {
             </TouchableOpacity>
 
             {/* Pet Profile Button */}
-            <TouchableOpacity style={styles.horizontalButton2}>
+            <TouchableOpacity style={styles.horizontalButton2} onPress={handleComplete}>
               <Text style={styles.buttonText}>Complete</Text>
             </TouchableOpacity>
           

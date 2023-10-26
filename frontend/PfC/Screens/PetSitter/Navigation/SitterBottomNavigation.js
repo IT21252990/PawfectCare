@@ -2,15 +2,22 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Colors from "../../../assets/colors/colors";
-import  SitterChat from "../Chat/ChatList"
-import SitterHome from '../Home/SitterDashboard'
-import SitterNotifications from '../Notification/notification'
-import SitterProfile from '../Profile/PetSitterProfilePage'
+import  ChatDisplay from "../Chat/ChatList"
+import Home from '../Home/SitterDashboard'
+import Notification from '../Notification/notification'
+import Profile from '../Profile/PetSitterProfilePage'
+import Appointments from '../Appointments/Appointments'
+import AppointmentDetail from '../Appointments/AppointmentDetail'
+import MyTasks from '../Tasks/MyTasks'
+import TaskDetails from '../Tasks/MyTaskDetails'
+import History from '../History'
 
-const CenterBottomNavigation = () => {
-
-    const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
+
+const SitterBottomNavigation = () => {
+
+    
 
   const screenOptions={
     tabBarShowLabel:false,
@@ -30,12 +37,12 @@ const CenterBottomNavigation = () => {
   return (
 
     <Tab.Navigator 
-    initialRouteName="SitterHome"
+    initialRouteName="Home"
     screenOptions={screenOptions}
     >
       <Tab.Screen
-        name="SitterHome"
-        component={SitterHome}
+        name="Home"
+        component={HomeStack}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => {
@@ -52,8 +59,8 @@ const CenterBottomNavigation = () => {
       />
 
     <Tab.Screen
-        name="SitterChat"
-        component={SitterChat}
+        name="Chat"
+        component={ChatDisplay}
         options={{
           tabBarLabel: 'Chat',
           tabBarIcon: ({ focused }) => {
@@ -69,8 +76,8 @@ const CenterBottomNavigation = () => {
       />
 
     <Tab.Screen
-        name="SitterNotification"
-        component={SitterNotifications}
+        name="Notification"
+        component={Notification}
         options={{
           tabBarLabel: 'Notifications',
           tabBarIcon: ({ focused }) => {
@@ -87,7 +94,7 @@ const CenterBottomNavigation = () => {
 
       <Tab.Screen
         name="SitterProfile"
-        component={SitterProfile}
+        component={Profile}
         options={{
           tabBarLabel: 'Account',
           tabBarIcon: ({ focused }) => {
@@ -106,4 +113,40 @@ const CenterBottomNavigation = () => {
   )
 }
 
-export default CenterBottomNavigation
+const HomeStack = () => (
+  <Stack.Navigator initialRouteName='Sitter_Home'>
+    <Stack.Screen
+      name="Sitter_Home"
+      component={Home}
+      options={{ headerShown: false }}/>
+
+     <Stack.Screen 
+      name="Appointments" 
+      component={Appointments} 
+      options={{ headerShown: false }}/>
+
+    <Stack.Screen 
+      name="AppointmentDetail" 
+      component={AppointmentDetail} 
+      options={{ headerShown: false }}/>
+
+    <Stack.Screen 
+      name="MyTasks" 
+      component={MyTasks} 
+      options={{ headerShown: false }}/>
+  <Stack.Screen 
+      name="TaskDetails" 
+      component={TaskDetails} 
+      options={{ headerShown: false }}/>
+    <Stack.Screen 
+      name="History" 
+      component={History} 
+      options={{ headerShown: false }}/>
+
+  </Stack.Navigator>
+
+);
+
+
+
+export default SitterBottomNavigation

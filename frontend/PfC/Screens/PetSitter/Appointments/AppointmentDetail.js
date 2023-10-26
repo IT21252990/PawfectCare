@@ -1,6 +1,96 @@
 import React from "react";
-import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, ScrollView } from "react-native";
 
+import { useNavigation } from '@react-navigation/native';
+
+
+const Apointmentdetail = ({ route }) => {
+  
+  const { appointment } = route.params;
+
+  const navigation = useNavigation();
+
+  const acceptAppointment = route.params.acceptAppointment;
+
+  const handleAcceptBooking = () => {
+    // Create a task object with relevant details
+    const task = {
+      petName: appointment.petName,
+      ownerName: appointment.accountHolderName,
+      acceptedDate: new Date().toDateString(),
+    };
+
+    acceptAppointment(appointment);
+  
+    // Navigate to the MyTasks page and pass the accepted task
+    navigation.navigate("MyTasks", { acceptedTask: task });
+  };
+
+  const staticPersonality = `Playful: Charlie is an energetic and playful cat. He loves interactive toys and enjoys play sessions. Cuddly: He is affectionate and enjoys cuddling, especially during the evenings. Curious: Charlie is curious about his surroundings and often explores every nook and corner of the house. Likes: He likes chasing feather wands, watching birds from the window, and lounging in cozy spots. Dislikes: Loud noises and being confined to a small space.`;
+
+const staticFeeding = "Charlie is fed twice a day, in the morning and evening. He prefers wet food but enjoys occasional treats of dry kibbles.";
+
+
+  return (
+    <ImageBackground
+      source={require("../../../assets/images/mainbg.jpeg")}
+      style={styles.container}
+      imageStyle={styles.background}
+    >
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>APPOINTMENTS</Text>
+        </View>
+
+        <View style={styles.avatarContainer}>
+        <Image
+            source={require("../../../assets/images/loginpic.png")}
+            style={styles.avatarImage}
+          />
+        </View>
+
+        <View style={styles.backgroundBox}>
+          <View style={styles.petInfoContainer}>
+            <Text style={{ ...styles.petInfoData, textAlign: 'center', fontWeight: 'bold', fontSize: 30 }}>{appointment.petName}</Text>
+            <Text style={styles.petInfoLabel}>Owner:</Text>
+            <Text style={styles.petInfoData}>{appointment.accountHolderName}</Text>
+            <Text style={styles.petInfoLabel}>Breed:</Text>
+            <Text style={styles.petInfoData}>{appointment.petBreed}</Text>
+            <Text style={styles.petInfoLabel}>Age:</Text>
+            <Text style={styles.petInfoData}>{appointment.petAge}</Text>
+            <Text style={styles.petInfoLabel}>Gender:</Text>
+            <Text style={styles.petInfoData}>{appointment.petGender}</Text>
+            <Text style={styles.petInfoLabel}>Personality:</Text>
+            <Text style={styles.petInfoData}>{staticPersonality}</Text> 
+            <Text style={styles.petInfoLabel}>Feeding:</Text>
+            <Text style={styles.petInfoData}>{staticFeeding}</Text> 
+            <Text style={styles.petInfoLabel}>Emergancy Contact Number:</Text>
+            <Text style={styles.petInfoData}>{appointment.contactNumber}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={handleAcceptBooking}>
+          <Text style={styles.buttonText}>Accept Booking</Text>
+        </TouchableOpacity>
+
+        {/* Horizontal Buttons */}
+        <View style={{ flexDirection: "row" }}>
+          {/* Cancel Button */}
+          <TouchableOpacity style={styles.horizontalButton2}>
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+
+          {/* Pet Profile Button */}
+          <TouchableOpacity style={styles.horizontalButton}>
+            <Text style={styles.buttonText}>Pet Profile</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </ImageBackground>
+  );
+};
+
+export default Apointmentdetail;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -73,10 +163,12 @@ const styles = StyleSheet.create({
   },
   petInfoLabel: {
     fontSize: 16,
+    padding:5,
     fontWeight: "bold",
   },
   petInfoData: {
     fontSize: 16,
+    paddingTop:8,
     marginLeft: 5,
     fontWeight: "normal",
   },
@@ -136,99 +228,3 @@ const styles = StyleSheet.create({
     marginRight: 10,
   }
 });
-
-const PetSitterProfile = () => {
-  // Define fake pet details
-  const fakePetDetails = {
-    name: "Charlie",
-    owner: "Jorn",
-    breed: "Domestic Shorthair",
-    age: "2 years old",
-    color: "Gray with white paws and chest",
-    weight: "10 lbs",
-    personality:
-      "Playful: Charlie is an energetic and playful cat. He loves interactive toys and enjoys play sessions. Cuddly: He is affectionate and enjoys cuddling, especially during the evenings. Curious: Charlie is curious about his surroundings and often explores every nook and corner of the house. Likes: He likes chasing feather wands, watching birds from the window, and lounging in cozy spots. Dislikes: Loud noises and being confined to a small space.",
-    feeding: "Charlie is fed twice a day, in the morning and evening. He prefers wet food but enjoys occasional treats of dry kibbles.",
-    specialInstructions:
-      "Please ensure that windows and balcony doors are securely closed during the cat sitting period. If Charlie shows signs of restlessness or unusual behavior, providing interactive playtime can help.",
-    emergencyContact: "Emergency Contact: 0777777777 / Jorn@gmail.com",
-  };
-
-  return (
-    <ImageBackground
-      source={require("../../../assets/images/mainbg.jpeg")}
-      style={styles.container}
-      imageStyle={styles.background}
-    >
-      <ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>APPOINTMENTS</Text>
-        </View>
-
-        <View style={styles.avatarContainer}>
-          <Image source={require("../../../assets/images/loginpic.png")} style={styles.avatarImage} />
-        </View>
-
-        <View style={styles.backgroundBox}>
-          <View style={styles.petInfoContainer}>
-            
-            <Text style={{ ...styles.petInfoData, textAlign: 'center', fontWeight: 'bold' ,  fontSize: 30 }} >{fakePetDetails.name}</Text>
-            <Text style={styles.petInfoLabel}>Owner:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.owner}</Text>
-            <Text style={styles.petInfoLabel}>Breed:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.breed}</Text>
-            <Text style={styles.petInfoLabel}>Age:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.age}</Text>
-            <Text style={styles.petInfoLabel}>Color:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.color}</Text>
-            <Text style={styles.petInfoLabel}>Weight:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.weight}</Text>
-            <Text style={styles.petInfoLabel}>Personality:</Text>
-            <Text style={styles.petInfoData}>
-              <Text style={styles.personalityLabel}>Playful:</Text> {fakePetDetails.personality.split("Playful: ")[1]}
-            </Text>
-            <Text style={styles.petInfoData}>
-              <Text style={styles.personalityLabel}>Cuddly:</Text> {fakePetDetails.personality.split("Cuddly: ")[1]}
-            </Text>
-            <Text style={styles.petInfoData}>
-              <Text style={styles.personalityLabel}>Curious:</Text> {fakePetDetails.personality.split("Curious: ")[1]}
-            </Text>
-            <Text style={styles.petInfoData}>
-              <Text style={styles.personalityLabel}>Likes:</Text> {fakePetDetails.personality.split("Likes: ")[1]}
-            </Text>
-            <Text style={styles.petInfoData}>
-              <Text style={styles.personalityLabel}>Dislikes:</Text> {fakePetDetails.personality.split("Dislikes: ")[1]}
-            </Text>
-            <Text style={styles.petInfoLabel}>Feeding:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.feeding}</Text>
-            <Text style={styles.petInfoLabel}>Special Instructions:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.specialInstructions}</Text>
-            <Text style={styles.petInfoLabel}>Emergency Contact:</Text>
-            <Text style={styles.petInfoData}>{fakePetDetails.emergencyContact}</Text>
-
-            </View>
-</View>
-            <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Accept Booking</Text>
-          </TouchableOpacity>
-
-          {/* Horizontal Buttons */}
-          <View style={{ flexDirection: "row" }}>
-            {/* Cancel Button */}
-            <TouchableOpacity style={styles.horizontalButton2}>
-              <Text style={styles.buttonText}>Cancel</Text>
-            </TouchableOpacity>
-
-            {/* Pet Profile Button */}
-            <TouchableOpacity style={styles.horizontalButton}>
-              <Text style={styles.buttonText}>Pet Profile</Text>
-            </TouchableOpacity>
-          
-          
-        </View>
-      </ScrollView>
-    </ImageBackground>
-  );
-};
-
-export default PetSitterProfile;

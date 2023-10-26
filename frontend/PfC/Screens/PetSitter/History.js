@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ImageBackground, ScrollView, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,7 +16,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     elevation: 5,
-    
   },
   headerText: {
     width: 254,
@@ -29,12 +28,38 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     lineHeight: 26.54,
   },
-
-  
+  listItem: {
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 10,
+    marginHorizontal: 15,
+  },
+  taskTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  taskDescription: {
+    fontSize: 14,
+  },
 });
 
-const PetSitterProfile = () => {
-  
+const History = () => {
+  // Simulated list of completed tasks
+  const completedTasks = [
+    {
+      title: " Kitty",
+      description: "Completed on 2023-10-25",
+    },
+    {
+      title: "Leo",
+      description: "Completed on 2023-10-24",
+    },
+    {
+      title: "Charlie",
+      description: "Completed on 2023-10-23",
+    },
+  ];
 
   return (
     <ImageBackground
@@ -47,17 +72,18 @@ const PetSitterProfile = () => {
           <Text style={styles.headerText}>History</Text>
         </View>
 
-        
-
         <View style={styles.backgroundBox}>
-         
-</View>
-            
-
-        
+          {/* Map through the list of completed tasks and display them */}
+          {completedTasks.map((task, index) => (
+            <TouchableOpacity key={index} style={styles.listItem}>
+              <Text style={styles.taskTitle}>{task.title}</Text>
+              <Text style={styles.taskDescription}>{task.description}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
     </ImageBackground>
   );
 };
 
-export default PetSitterProfile;
+export default History;

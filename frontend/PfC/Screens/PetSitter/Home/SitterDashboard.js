@@ -5,13 +5,22 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-const PetSitterProfile = () => {
+const Dashboard = () => {
 
   const navigation = useNavigation();
 
+  
+  const handleMyTasks = () => {
+    navigation.navigate('MyTasks');
+  }
+
+  const handleAppointment = () => {
+    navigation.navigate('Appointments');
+  }
+
   const handleUpdateProfile = () => {
     // Navigate to the profile page
-    navigation.navigate('PetSitterProfile'); // Replace 'Profile' with the actual name of your profile page in the navigator.
+    navigation.navigate('SitterProfile'); // Replace 'Profile' with the actual name of your profile page in the navigator.
   };
   return (
     <ImageBackground
@@ -23,13 +32,14 @@ const PetSitterProfile = () => {
       <ScrollView>
         <View style={styles.header}>
           <Text style={styles.headerText}>DASHBOARD</Text>
+          
         </View>
 
-        <TouchableOpacity style={styles.apointment}>
+        <TouchableOpacity style={styles.apointment} onPress = {handleAppointment}>
           <Text style={styles.AppointmentbuttonText}>Check Appointments</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.MyTasksButton}>
+        <TouchableOpacity style={styles.MyTasksButton} onPress = {handleMyTasks}>
           <Text style={styles.AppointmentbuttonText}>My Tasks</Text>
         </TouchableOpacity>
 
@@ -45,7 +55,7 @@ const PetSitterProfile = () => {
   );
 };
 
-export default PetSitterProfile;
+export default Dashboard;
 
 const styles = StyleSheet.create({
   container: {
